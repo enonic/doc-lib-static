@@ -461,7 +461,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Setup a Enonic XP project.</p>
 </li>
 <li>
-<p>Depend on lib-static in you build.gradle file.</p>
+<p>Depend on lib-static in your build.gradle file.</p>
 </li>
 <li>
 <p>Make sure the React application is built and the output is put somewhere under <code>build/resources/main</code>.</p>
@@ -561,7 +561,7 @@ export default App</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-10-08 11:39:03 UTC
+Last updated 2024-10-08 11:43:35 UTC
 </div>
 </div>
 </body>
