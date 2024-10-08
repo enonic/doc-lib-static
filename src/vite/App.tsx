@@ -7,6 +7,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Link to="/bookmarkable">Bookmarkable</Link>}/>
           <Route path="/bookmarkable" element={<Link to="/">Home</Link>}/>
+          <Route path="*" element={<div>
+            <h1>404</h1>
+            <Link to="/">Go home</Link>
+          </div>}/>
         </Routes>
       </BrowserRouter>
   )

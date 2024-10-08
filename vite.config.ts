@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default {
   base: '/webapp/com.example.static/',
   build: {
-    outDir: 'build/resources/main/static/react',
+    outDir: 'build/resources/main/webapp/files',
   },
   plugins: [react()],
 } satisfies UserConfig

@@ -26,7 +26,7 @@ import {
         });
       },
       notFound: spaNotFoundHandler,
-      root: '/static/react',
+      root: '/webapp/files',
     }
   ));
 
