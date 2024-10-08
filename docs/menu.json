@@ -27,7 +27,11 @@
         {
             "title": "Service",
             "document": "examples/service"
-          }
+        },
+        {
+            "title": "Mapped",
+            "document": "examples/mapped"
+        }
       ]
     }
   ]

@@ -42,3 +42,4 @@ const libStatic = require('/lib/enonic/static');
 
 * <<examples/singlePageReactWebapp#, Single page React web-application>>
 * <<examples/service#, Service>>
+* <<examples/mapped#, Mapped serving>>

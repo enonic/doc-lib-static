@@ -1,0 +1,43 @@
+= Mapped serving
+
+This example demonstrates how to serve static assets under a mapped url.
+
+Here are the steps needed to do that:
+. Depend on lib-static in you build.gradle file.
+. Make some assets to be served.
+. Create a controller that uses lib-static to serve the assets.
+. Add a site mapping to the controller.
+
+== Assets
+
+=== A static webpage
+
+.site/controllers/myController/files/index.html
+[source,html]
+----
+include::../../src/main/resources/site/controllers/myController/files/index.html[]
+----
+
+=== Stylesheet
+
+.site/controllers/myController/files/css/styles.css
+[source,css]
+----
+include::../../src/main/resources/site/controllers/myController/files/css/styles.css[]
+----
+
+== Controller
+
+.site/controllers/myController/myController.ts
+[source,typescript]
+----
+include::../../src/main/resources/site/controllers/myController/myController.ts[]
+----
+
+== Site.xml
+
+.site/site.xml
+[source,xml]
+----
+include::../../src/main/resources/site/site.xml[]
+----
