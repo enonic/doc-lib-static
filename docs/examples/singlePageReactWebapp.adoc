@@ -5,7 +5,7 @@ Image you already have a React web-application, and you want to serve it from En
 Here are the steps to do that:
 
 . Setup a Enonic XP project.
-. Depend on lib-static in you build.gradle file.
+. Depend on lib-static in your build.gradle file.
 . Make sure the React application is built and the output is put somewhere under `build/resources/main`.
 . Create a webapp controller `src/main/resources/webapp/webapp.ts` that uses lib-static to serve the React application.
 
