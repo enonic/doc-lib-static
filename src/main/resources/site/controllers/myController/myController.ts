@@ -14,7 +14,10 @@ router.get('{path:.*}', (request) => {
   return requestHandler(
     request,
     {
+      // The base path should match the one used in site.xml
       relativePath: mappedRelativePath('_static/mapped'),
+
+      // Which files to serve under the mapped path
       root: '/site/controllers/myController/files',
     }
   );
