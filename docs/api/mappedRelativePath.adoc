@@ -1,0 +1,9 @@
+= mappedRelativePath
+
+mappedRelativePath is a function that takes a `base` path string and returns a <<types#RelativePathResolver,RelativePathResolver>> function.
+
+The returned function will resolve relative paths to resources "hosted" under the based `base` path.
+
+It can be imported and used as a callback for the `relativePath` option of the <<api/requestHandler,requestHandler>> function.
+
+See the <<../examples/mapped#,mapped>> example.

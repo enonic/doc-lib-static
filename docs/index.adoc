@@ -35,6 +35,9 @@ const libStatic = require('/lib/enonic/static');
 == API
 
 * <<api/requestHandler#, requestHandler>>
+* <<api/defaultCacheControl#, defaultCacheControl>>
+* <<api/spaNotFoundHandler#, spaNotFoundHandler>>
+* <<api/mappedRelativePath#, mappedRelativePath>>
 * <<api/constants#, constants>>
 * <<api/types#, types>>
 

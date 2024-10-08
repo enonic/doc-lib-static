@@ -1,0 +1,25 @@
+= defaultCacheControl
+
+defaultCacheControl is a function that returns a cache control header value.
+
+It's used as a callback and is the default value for the `cacheControl` option in the <<api/requestHandler,requestHandler>> function.
+
+When yielded inside the requestHandler it gets passed the found resource, it's content type and path.
+
+== Type signature
+
+See <<types#CacheControlResolver,CacheControlResolver>>
+
+== Parameters
+
+[%header,cols="1%,1%,1%,98%a"]
+[frame="none"]
+[grid="none"]
+|===
+| Name        | Type     | Description
+| contentType | string   | The content type of the resource
+| path        | string   | The path to the resource
+| resource    | Resource | The found resource
+|===
+
+See the <<../examples/singlePageReactWebapp#,SPA>> example.
