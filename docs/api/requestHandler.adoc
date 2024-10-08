@@ -21,7 +21,7 @@ This function handles requests for static resources.
 [caption=""]
 |===
 | Name           | Type                 | Default                 | Description
-| cacheControl   | <<types#CacheControlResolver,CacheControlResolver>> | defaultCacheControl     | Function that returns the cache control header value
+| cacheControl   | <<types#CacheControlResolver,CacheControlResolver>> | <<defaultCacheControl#,defaultCacheControl>>     | Function that returns the cache control header value
 | contentType    |  <<types#ContentTypeResolver,ContentTypeResolver>>  | getMimeType             | Function that returns the content type header value
 | etag           | boolean              | true                    | Whether to include ETag header
 | index          | string               | 'index.html'            | Default file to serve when requesting a directory
