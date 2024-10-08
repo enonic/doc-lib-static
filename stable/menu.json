@@ -1,0 +1,38 @@
+{
+    "menuItems": [
+    {
+      "title": "API",
+      "menuItems": [
+        {
+          "title": "requestHandler",
+          "document": "api/requestHandler"
+        },
+        {
+            "title": "constants",
+            "document": "api/constants"
+        },
+        {
+            "title": "types",
+            "document": "api/types"
+        }
+      ]
+    },
+    {
+      "title": "Examples",
+      "menuItems": [
+        {
+          "title": "Single page React-app",
+          "document": "examples/singlePageReactWebapp"
+        },
+        {
+            "title": "Service",
+            "document": "examples/service"
+        },
+        {
+            "title": "Mapped",
+            "document": "examples/mapped"
+        }
+      ]
+    }
+  ]
+}
