@@ -1,0 +1,43 @@
+= Lib-static
+:toc: right
+
+== Introduction
+
+link:https://enonic.com/developer-tour[Enonic XP] library for serving static assets.
+
+== Install
+
+Insert into `build.gradle` of your XP project, under `dependencies`, where `<version>` is the latest/requested version of this library.
+
+[source,groovy]
+----
+dependencies {
+	include 'com.enonic.lib:lib-static:<version>'
+}
+----
+
+== Use
+
+In any link:https://developer.enonic.com/docs/xp/stable/framework/controllers[XP controller], import the library:
+
+Ecma/TypeScript:
+[source,typescript]
+----
+import {requestHandler} from '/lib/enonic/static';
+----
+
+JavaScript:
+[source,javascript]
+----
+const libStatic = require('/lib/enonic/static');
+----
+
+== API
+
+* <<api/requestHandler#, requestHandler>>
+* <<api/constants#, constants>>
+* <<api/types#, types>>
+
+== Examples
+
+* <<examples/singlePageReactWebapp#, Single page React web-application>>

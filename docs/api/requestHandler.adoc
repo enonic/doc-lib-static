@@ -1,0 +1,38 @@
+= requestHandler
+
+This function handles requests for static resources.
+
+== Parameters
+
+[%header,cols="1%,1%,1%,98%a"]
+[frame="none"]
+[grid="none"]
+|===
+| Name    | Type    | Attributes | Description
+| request | Request | <required> | The request object
+| options | object  | <optional> | Options object
+|===
+
+=== Options
+
+[%header,cols="1%,1%,1%,96%a"]
+[frame="none"]
+[grid="none"]
+[caption=""]
+|===
+| Name           | Type                 | Default                 | Description
+| cacheControl   | CacheControlResolver | defaultCacheControl     | Function that returns the cache control header value
+| contentType    | ContentTypeResolver  | getMimeType             | Function that returns the content type header value
+| etag           | boolean              | true                    | Whether to include ETag header
+| index          | string               | 'index.html'            | Default file to serve when requesting a directory
+| notFound       | NotFoundHandler      | notFoundResponse        | Function that returns the response object when the resource is not found
+| relativePath   | RelativePathResolver | getRelativeResourcePath | Function that returns the relative path to the resource
+| root           | string               | '/static'               | Root path to serve files from
+| staticCompress | boolean              | true                    | Whether to serve precompressed files (*.br, *.gz) if available and supported by the browser
+| throwErrors    | boolean              | true                    | Whether to throw errors or return a response object
+|===
+
+[.lead]
+Returns
+
+*Response* : The response object.

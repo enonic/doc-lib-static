@@ -1,0 +1,19 @@
+= Constants
+
+The static assets library exports a constant named `RESPONSE_CACHE_CONTROL`.
+
+== RESPONSE_CACHE_CONTROL
+
+This is an enum with the following members:
+
+[%header,cols="1%,1%,98%a"]
+[frame="none"]
+[grid="none"]
+|===
+| Name | Current value | Description
+| `CRAWLER` | public, max-age=3600, stale-while-revalidate=60 | Cache control for crawler requests
+| `DEV` | private, no-store | Cache control for development mode
+| `IMMUTABLE` | public, max-age=31536000, immutable | Cache control for immutable resources
+| `PREVENT` | public, max-age=0, must-revalidate | Cache control to prevent caching
+| `SAFE` | public, max-age=10, s-maxage=3600, stale-while-revalidate=60 | Cache control for safe requests
+|===
