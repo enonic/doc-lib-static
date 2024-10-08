@@ -515,7 +515,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">cacheControl</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="types.ahtml#CacheControlResolver">CacheControlResolver</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">defaultCacheControl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="defaultCacheControl.ahtml">defaultCacheControl</a></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Function that returns the cache control header value</p>
 </div></div></td>
@@ -598,7 +598,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-10-08 11:34:15 UTC
+Last updated 2024-10-08 11:39:03 UTC
 </div>
 </div>
 </body>
