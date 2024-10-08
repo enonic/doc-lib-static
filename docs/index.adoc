@@ -41,3 +41,4 @@ const libStatic = require('/lib/enonic/static');
 == Examples
 
 * <<examples/singlePageReactWebapp#, Single page React web-application>>
+* <<examples/service#, Service>>

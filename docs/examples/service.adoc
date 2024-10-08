@@ -1,0 +1,36 @@
+= Service
+
+This example demonstrates how to serve static assets from a service.
+
+link:https://developer.enonic.com/docs/xp/stable/runtime/engines/http-service[Services] are basically available from anywhere in Enonic XP.
+
+In this example we use a service to serve a stylesheet on a dynamically generated page.
+
+Here are the steps needed to do that:
+. Depend on lib-static in you build.gradle file.
+. Create a service that uses lib-static to serve the stylesheet.
+. Create a page controller that generates a page that links to the stylesheet.
+
+== Stylesheet
+
+./src/main/resources/services/myStatic/files/css/style.css
+[source,css]
+----
+include::../../src/main/resources/services/myStatic/files/css/style.css[]
+----
+
+== Service
+
+./src/main/resources/services/myStatic/myStatic.ts
+[source,typescript]
+----
+include::../../src/main/resources/services/myStatic/myStatic.ts[]
+----
+
+== Page controller
+
+./src/main/resources/site/pages/dynamic/dynamic.ts
+[source,typescript]
+----
+include::../../src/main/resources/site/pages/dynamic/dynamic.ts[]
+----

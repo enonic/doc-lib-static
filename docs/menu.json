@@ -23,7 +23,11 @@
         {
           "title": "Single page React-app",
           "document": "examples/singlePageReactWebapp"
-        }
+        },
+        {
+            "title": "Service",
+            "document": "examples/service"
+          }
       ]
     }
   ]
