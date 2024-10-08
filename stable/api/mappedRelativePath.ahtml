@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Constants</title>
+<title>mappedRelativePath</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -435,82 +435,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article toc2 toc-right">
+<body class="article">
 <div id="header">
-<h1>Constants</h1>
-<div id="toc" class="toc2">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#response_cache_control">RESPONSE_CACHE_CONTROL</a></li>
-</ul>
-</div>
+<h1>mappedRelativePath</h1>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
 <div class="paragraph">
-<p>The static assets library exports a constant named <code>RESPONSE_CACHE_CONTROL</code>.</p>
+<p>mappedRelativePath is a function that takes a <code>base</code> path string and returns a <a href="types.ahtml#RelativePathResolver">RelativePathResolver</a> function.</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="response_cache_control"><a class="link" href="#response_cache_control">RESPONSE_CACHE_CONTROL</a></h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>This is an enum with the following members:</p>
+<p>The returned function will resolve relative paths to resources "hosted" under the based <code>base</code> path.</p>
 </div>
-<table class="tableblock frame-none grid-none stretch">
-<colgroup>
-<col style="width: 1%;">
-<col style="width: 1%;">
-<col style="width: 98%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Current value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CRAWLER</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">public, max-age=3600, stale-while-revalidate=60</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Cache control for crawler requests</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DEV</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">private, no-store</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Cache control for development mode</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMMUTABLE</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">public, max-age=31536000, immutable</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Cache control for immutable resources</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PREVENT</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">public, max-age=0, must-revalidate</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Cache control to prevent caching</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SAFE</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">public, max-age=10, s-maxage=3600, stale-while-revalidate=60</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Cache control for safe requests</p>
-</div></div></td>
-</tr>
-</tbody>
-</table>
+<div class="paragraph">
+<p>It can be imported and used as a callback for the <code>relativePath</code> option of the <a href="#api/requestHandler">requestHandler</a> function.</p>
 </div>
+<div class="paragraph">
+<p>See the <a href="../examples/mapped.ahtml">mapped</a> example.</p>
 </div>
 </div>
 <div id="footer">

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Constants</title>
+<title>defaultCacheControl</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,11 +437,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-right">
 <div id="header">
-<h1>Constants</h1>
+<h1>defaultCacheControl</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#response_cache_control">RESPONSE_CACHE_CONTROL</a></li>
+<li><a href="#type_signature">Type signature</a></li>
+<li><a href="#parameters">Parameters</a></li>
 </ul>
 </div>
 </div>
@@ -449,67 +450,64 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>The static assets library exports a constant named <code>RESPONSE_CACHE_CONTROL</code>.</p>
+<p>defaultCacheControl is a function that returns a cache control header value.</p>
+</div>
+<div class="paragraph">
+<p>It&#8217;s used as a callback and is the default value for the <code>cacheControl</code> option in the <a href="#api/requestHandler">requestHandler</a> function.</p>
+</div>
+<div class="paragraph">
+<p>When yielded inside the requestHandler it gets passed the found resource, it&#8217;s content type and path.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="response_cache_control"><a class="link" href="#response_cache_control">RESPONSE_CACHE_CONTROL</a></h2>
+<h2 id="type_signature"><a class="link" href="#type_signature">Type signature</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This is an enum with the following members:</p>
+<p>See <a href="types.ahtml#CacheControlResolver">CacheControlResolver</a></p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="parameters"><a class="link" href="#parameters">Parameters</a></h2>
+<div class="sectionbody">
 <table class="tableblock frame-none grid-none stretch">
 <colgroup>
-<col style="width: 1%;">
-<col style="width: 1%;">
-<col style="width: 98%;">
+<col style="width: 0.99%;">
+<col style="width: 0.99%;">
+<col style="width: 0.99%;">
+<col style="width: 97.03%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Current value</th>
+<th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">contentType</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CRAWLER</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">public, max-age=3600, stale-while-revalidate=60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The content type of the resource</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">path</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Cache control for crawler requests</p>
+<p>string</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DEV</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">private, no-store</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The path to the resource</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">resource</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Resource</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Cache control for development mode</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMMUTABLE</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">public, max-age=31536000, immutable</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Cache control for immutable resources</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PREVENT</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">public, max-age=0, must-revalidate</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Cache control to prevent caching</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SAFE</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">public, max-age=10, s-maxage=3600, stale-while-revalidate=60</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Cache control for safe requests</p>
+<p>The found resource</p>
 </div></div></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>See the <a href="../examples/singlePageReactWebapp.ahtml">SPA</a> example.</p>
+</div>
 </div>
 </div>
 </div>

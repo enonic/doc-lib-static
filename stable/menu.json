@@ -8,6 +8,18 @@
           "document": "api/requestHandler"
         },
         {
+            "title": "defaultCacheControl",
+            "document": "api/defaultCacheControl"
+        },
+        {
+            "title": "spaNotFoundHandler",
+            "document": "api/spaNotFoundHandler"
+        },
+        {
+            "title": "mappedRelativePath",
+            "document": "api/mappedRelativePath"
+        },
+        {
             "title": "constants",
             "document": "api/constants"
         },
