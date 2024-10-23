@@ -1,50 +1,16 @@
 {
     "menuItems": [
     {
-      "title": "API",
-      "menuItems": [
-        {
-          "title": "requestHandler",
-          "document": "api/requestHandler"
-        },
-        {
-            "title": "defaultCacheControl",
-            "document": "api/defaultCacheControl"
-        },
-        {
-            "title": "spaNotFoundHandler",
-            "document": "api/spaNotFoundHandler"
-        },
-        {
-            "title": "mappedRelativePath",
-            "document": "api/mappedRelativePath"
-        },
-        {
-            "title": "constants",
-            "document": "api/constants"
-        },
-        {
-            "title": "types",
-            "document": "api/types"
-        }
-      ]
+      "title": "Introduction",
+      "document": "index"
     },
     {
-      "title": "Examples",
-      "menuItems": [
-        {
-          "title": "Single page React-app",
-          "document": "examples/singlePageReactWebapp"
-        },
-        {
-            "title": "Service",
-            "document": "examples/service"
-        },
-        {
-            "title": "Mapped",
-            "document": "examples/mapped"
-        }
-      ]
+      "title": "Usage",
+      "document": "usage"
+    },
+    {
+      "title": "API",
+      "document": "api"
     }
   ]
 }

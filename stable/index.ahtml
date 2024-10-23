@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Lib-static</title>
+<title>Static library</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,15 +437,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-right">
 <div id="header">
-<h1>Lib-static</h1>
+<h1>Static library</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#introduction">Introduction</a></li>
-<li><a href="#install">Install</a></li>
-<li><a href="#use">Use</a></li>
-<li><a href="#api">API</a></li>
-<li><a href="#examples">Examples</a></li>
+<li><a href="#usage">Usage</a></li>
 </ul>
 </div>
 </div>
@@ -454,98 +451,57 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="introduction"><a class="link" href="#introduction">Introduction</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://enonic.com/developer-tour">Enonic XP</a> library for serving static assets.</p>
+<p>Fine grained control over static asset hosting (js, css + html) via your Enonic app.
+Lib-static even supports hosting an entire static webapp.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For a more simplistic approach to asset hosting, check out <a href="https://developer.enonic.com/docs/lib-asset.ahtml">lib-asset</a> instead.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="install"><a class="link" href="#install">Install</a></h2>
+<h2 id="usage"><a class="link" href="#usage">Usage</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Insert into <code>build.gradle</code> of your XP project, under <code>dependencies</code>, where <code>&lt;version&gt;</code> is the latest/requested version of this library.</p>
+<p>There are many ways of setting up and using lib-static, the gist is:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">dependencies {
-	include 'com.enonic.lib:lib-static:&lt;version&gt;'
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="use"><a class="link" href="#use">Use</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>In any <a href="https://developer.enonic.com/docs/xp/stable/framework/controllers">XP controller</a>, import the library:</p>
-</div>
-<div class="paragraph">
-<p>Ecma/TypeScript:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-typescript" data-lang="typescript">import {requestHandler} from '/lib/enonic/static';</code></pre>
-</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add the library to your app via a dependency</p>
+</li>
+<li>
+<p>Use a service, mapping or webapp to serve the assets.</p>
+</li>
+<li>
+<p>Place the asset files in your Enonic project&#8217;s src/main/resources/static/ folder</p>
+</li>
+<li>
+<p>Create links to assets from your controller</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
-<p>JavaScript:</p>
+<p>We have created hands on use cases and examples using <a href="usage.ahtml">services, mappings or webapps</a>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-javascript" data-lang="javascript">const libStatic = require('/lib/enonic/static');</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="api"><a class="link" href="#api">API</a></h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="api/requestHandler.ahtml">requestHandler</a></p>
-</li>
-<li>
-<p><a href="api/defaultCacheControl.ahtml">defaultCacheControl</a></p>
-</li>
-<li>
-<p><a href="api/spaNotFoundHandler.ahtml">spaNotFoundHandler</a></p>
-</li>
-<li>
-<p><a href="api/mappedRelativePath.ahtml">mappedRelativePath</a></p>
-</li>
-<li>
-<p><a href="api/constants.ahtml">constants</a></p>
-</li>
-<li>
-<p><a href="api/types.ahtml">types</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="examples"><a class="link" href="#examples">Examples</a></h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="examples/singlePageReactWebapp.ahtml">Single page React web-application</a></p>
-</li>
-<li>
-<p><a href="examples/service.ahtml">Service</a></p>
-</li>
-<li>
-<p><a href="examples/mapped.ahtml">Mapped serving</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>For more details, visit the <a href="api.ahtml">API documentation</a></p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-10-08 11:43:35 UTC
+Last updated 2024-10-23 12:05:32 UTC
 </div>
 </div>
 </body>
