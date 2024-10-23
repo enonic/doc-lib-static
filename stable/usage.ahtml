@@ -511,8 +511,10 @@ Replace <code>${libVersion}</code> with the desired version of lib-static.
 <div class="paragraph">
 <p>This demonstrates how to serve asset using an <a href="https://developer.enonic.com/docs/xp/stable/runtime/engines/http-service">http service</a>.</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="paragraph">
-<p>It shocases:</p>
+<p>This example showcases:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -524,6 +526,11 @@ Replace <code>${libVersion}</code> with the desired version of lib-static.
 </li>
 <li>
 <p>Disabling serving of index.html files</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -623,9 +630,6 @@ export const get = () =&gt; {
 </li>
 </ol>
 </div>
-</li>
-</ul>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -634,6 +638,8 @@ export const get = () =&gt; {
 <div class="paragraph">
 <p>Developers using site engine, may want to serve the assets from a pretty URL, rather than a service endpoint.</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="paragraph">
 <p>This example demonstrates</p>
 </div>
@@ -644,6 +650,11 @@ export const get = () =&gt; {
 </li>
 <li>
 <p>using a custom static folder location</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -716,9 +727,6 @@ export const all = (request) =&gt; router.dispatch(request);</code></pre>
 </li>
 </ol>
 </div>
-</li>
-</ul>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -727,8 +735,10 @@ export const all = (request) =&gt; router.dispatch(request);</code></pre>
 <div class="paragraph">
 <p>Lib static is also capable of acting like a webserver, serving html-files. In this example we use XP&#8217;s /webapp feature to do the job. To make the example as realistic as possible, we use a React SPA created with Vite.</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="paragraph">
-<p>The example below demonstrates advanced features in lib static like:</p>
+<p>Showcases advanced use-cases like:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -740,6 +750,11 @@ export const all = (request) =&gt; router.dispatch(request);</code></pre>
 </li>
 <li>
 <p>Custom static folder location</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -850,15 +865,12 @@ export const all = (request) =&gt; router.dispatch(request);</code></pre>
 </li>
 </ol>
 </div>
-</li>
-</ul>
-</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-10-23 12:05:32 UTC
+Last updated 2024-10-23 12:11:32 UTC
 </div>
 </div>
 </body>
