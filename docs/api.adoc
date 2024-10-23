@@ -1,0 +1,212 @@
+= API
+
+== Constants
+
+Lib-static exports a constant named `RESPONSE_CACHE_CONTROL`.
+
+=== RESPONSE_CACHE_CONTROL
+
+Enum with the following members:
+
+[%header,cols="1%,1%,98%a"]
+[frame="none"]
+[grid="none"]
+|===
+| Name | Current value | Description
+| `CRAWLER` | public, max-age=3600, stale-while-revalidate=60 | Cache control for crawler requests
+| `DEV` | private, no-store | Cache control for development mode
+| `IMMUTABLE` | public, max-age=31536000, immutable | Cache control for immutable resources
+| `PREVENT` | public, max-age=0, must-revalidate | Cache control to prevent caching
+| `SAFE` | public, max-age=10, s-maxage=3600, stale-while-revalidate=60 | Cache control for safe requests
+|===
+
+
+== defaultCacheControl
+
+Function that returns a cache control header value.
+
+It's used as a callback and is the default value for the `cacheControl` option in the <<api/requestHandler,requestHandler>> function.
+
+When yielded inside the requestHandler it gets passed the found resource, it's content type and path.
+
+=== Type signature
+
+See <<CacheControlResolver>>
+
+=== Parameters
+
+[%header,cols="1%,1%,98%a"]
+[frame="none"]
+[grid="none"]
+|===
+| Name        | Type     | Description
+| contentType | string   | The content type of the resource
+| path        | string   | The path to the resource
+| resource    | Resource | The found resource
+|===
+
+See the <<usage#,webapp or mappings>> examples.
+
+
+== mappedRelativePath
+
+mappedRelativePath is a function that takes a `base` path string and returns a <<RelativePathResolver>> function.
+
+The returned function will resolve relative paths to resources "hosted" under the based `base` path.
+
+It can be imported and used as a callback for the `relativePath` option of the <<api/requestHandler,requestHandler>> function.
+
+See the <<usage#,mapped usage>> example.
+
+== requestHandler
+
+This function handles requests for static resources.
+
+=== Parameters
+
+[%header,cols="1%,1%,1%,98%a"]
+[frame="none"]
+[grid="none"]
+|===
+| Name    | Type    | Attributes | Description
+| request | Request | <required> | The request object
+| options | object  | <optional> | Options object
+|===
+
+=== Options
+
+[%header,cols="1%,1%,1%,96%a"]
+[frame="none"]
+[grid="none"]
+[caption=""]
+|===
+| Name           | Type                 | Default                 | Description
+| cacheControl   | <<CacheControlResolver>> | <<defaultCacheControl>>     | Function that returns the cache control header value
+| contentType    |  <<ContentTypeResolver>>  | getMimeType             | Function that returns the content type header value
+| etag           | boolean              | true                    | Whether to include ETag header
+| index          | string               | 'index.html'            | Default file to serve when requesting a directory
+| notFound       | <<NotFoundHandler>>      | notFoundResponse        | Function that returns the response object when the resource is not found
+| relativePath   | <<RelativePathResolver>> | getRelativeResourcePath | Function that returns the relative path to the resource
+| root           | string               | '/static'               | Root path to serve files from
+| staticCompress | boolean              | true                    | Whether to serve precompressed files (*.br, *.gz) if available and supported by the browser
+| throwErrors    | boolean              | true                    | Whether to throw errors or return a response object
+|===
+
+[.lead]
+Returns
+
+*Response* : The response object.
+
+
+== spaNotFoundHandler
+
+spaNotFoundHandler is a function that always returns a Response with the `index.html` Resource.
+
+It can be imported and used as a callback for the `notFound` option of the <<api/requestHandler,requestHandler>> function.
+
+Single page applications (SPA) typically consists of some static assets (stylesheets, fonts, images, etc...) and a single entrypoint file (e.g. `index.html`) that is responsible for routing and rendering the application.
+
+Whenever a request doesn't match a static asset, lib-static would by default return a 404 Response.
+
+This is not desireable for a SPA, because the request might be to a client-side routed page, and not a missing static asset.
+
+Such requests can happen when someone reloads or opens a bookmarked url to a client-side routed page.
+
+In addition to routing to client-side "pages", the SPA should render a beautiful 404 page, when no route matches.
+
+See the <<usage#,webapp usage example>>.
+
+
+== Types
+
+Overview of the TS type definitions in this API:
+
+=== CacheControlResolver
+
+[source,TypeScript]
+----
+type CacheControlResolver = (params: CacheControlResolverParams) => string | null
+----
+
+=== CacheControlResolverParams
+
+[source,TypeScript]
+----
+interface CacheControlResolverParams {
+  contentType?: string
+  path?: string
+  resource?: Resource
+}
+----
+
+=== ContentTypeResolver
+
+[source,TypeScript]
+----
+type ContentTypeResolver = (params: ContentTypeResolverParams) => string | null
+----
+
+=== ContentTypeResolverParams
+
+[source,TypeScript]
+----
+interface ContentTypeResolverParams {
+  path?: string
+  resource?: Resource
+}
+----
+
+=== NotFoundHandler
+
+[source,TypeScript]
+----
+type NotFoundHandler = (params: NotFoundHandlerParams) => Response
+----
+
+=== NotFoundHandlerParams
+
+[source,TypeScript]
+----
+interface NotFoundHandlerParams {
+  path: string
+  request: Request
+  cacheControl?: CacheControlResolver
+  contentType?: ContentTypeResolver
+  etag?: boolean
+  index?: string|false
+  root?: string
+  staticCompress?: boolean
+  throwErrors?: boolean
+}
+----
+
+=== RelativePathResolver
+
+[source,TypeScript]
+----
+type RelativePathResolver = (req: Request) => string
+----
+
+== RequestHandler
+
+[source,TypeScript]
+----
+type RequestHandler = (request: Request, options?: RequestHandlerOptions) => Response
+----
+
+=== RequestHandlerOptions
+
+[source,TypeScript]
+----
+interface RequestHandlerOptions {
+  cacheControl?: CacheControlResolver
+  contentType?: ContentTypeResolver
+  etag?: boolean
+  index?: string|false
+  notFound?: NotFoundHandler
+  relativePath?: RelativePathResolver
+  root?: string
+  staticCompress?: boolean
+  throwErrors?: boolean
+}
+----

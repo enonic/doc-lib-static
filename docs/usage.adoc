@@ -1,0 +1,157 @@
+= Usage and examples
+:toc: right
+
+== Introduction
+
+There are multiple ways of deploying and using lib-static in your application. Below we expore the most common approaches. This includes how you may setup lib-static to service different files, using different cache headers.
+
+== Common
+
+Follow these initial steps to get started, they are common for all examples below:
+
+. Use an existing Enonic app, or create a new one with the following command:
++
+  enonic sandbox create static_tutorial -t essentials -f
+  enonic create com.example.static -r starter-ts
++
+. Add the lib-static dependency with a single line
++
+.build.gradle
+[source,groovy]
+----
+dependencies {
+  include "com.enonic.lib:lib-static:${libVersion}"
+}
+----
++
+NOTE: Replace `${libVersion}` with the desired version of lib-static.
+
+You can now move on to the various examples below:
+
+== Service example
+
+This demonstrates how to serve asset using an https://developer.enonic.com/docs/xp/stable/runtime/engines/http-service[http service].
+
+It shocases:
+
+* Serving assets from the default static folder
+* Overriding "immutable" default cache headers
+* Disabling serving of index.html files
+
+. Start by *adding a service* to your app.
++
+./src/main/resources/services/myStatic/myStatic.ts
+[source,typescript]
+----
+include::../src/main/resources/services/myStatic/myStatic.ts[]
+----
+<1> As the files are not hashed, override the default immutable cache header
+<2> Disable serving of index.html files
++
+. Place a folder and stylesheet in the app:
++
+./src/main/resources/static/css/style.css
+[source,css]
+----
+include::../src/main/resources/static/css/style.css[]
+----
++
+NOTE: `/src/main/resources/static/` is the default location lib static will look for the files
++
+. Add a page controller that links to the stylesheet.
++
+./src/main/resources/site/pages/dynamic/dynamic.ts
+[source,TypeScript]
+----
+include::../src/main/resources/site/pages/dynamic/dynamic.ts[]
+----
++
+. Create a site with a page using this controller, you should instantly see the result.
+
+
+== Site mapping example
+
+Developers using site engine, may want to serve the assets from a pretty URL, rather than a service endpoint.
+
+This example demonstrates
+
+* use of relativeMappedPath
+* using a custom static folder location
+
+. Create a controller that will serve the files:
++
+.site/controllers/myController/myController.ts
+[source,typescript]
+----
+include::../src/main/resources/site/controllers/myController/myController.ts[]
+----
+<1> relativeMappedPath must match the mapping in `site.xml` below
+<2> Defines a custom location where the controller will look for static files
++
+. *Define the mapping* in your `site.xml` file.
++
+.site/site.xml
+[source,xml]
+----
+include::../src/main/resources/site/site.xml[]
+----
++
+. *Add a file* to the static files folder. In this case we place the files together with the controller:
++
+.site/controllers/myController/files/css/styles.css
+[source,css]
+----
+include::../src/main/resources/site/controllers/myController/files/css/styles.css[]
+----
++
+. Build, deploy and add the application to a site. The files will be served from site-relative mapping path (in this case `/mymapping/css/styles.css`).
+
+== Webapp example
+
+Lib static is also capable of acting like a webserver, serving html-files. In this example we use XP's /webapp feature to do the job. To make the example as realistic as possible, we use a React SPA created with Vite.
+
+The example below demonstrates advanced features in lib static like:
+
+* Custom Cache control handling
+* Fallback handling to SPA file for 404
+* Custom static folder location
+
+. Create a new React app using Vite
++
+  npm create vite@latest my-app-name -- --template react-ts
+  cd my-app-name
++
+. Replace the default App.tsx file with this:
++
+./src/vite/App.tsx
+[source,typescript]
+----
+include::../src/vite/App.tsx[]
+----
++
+TIP: You may serve the webapp from any context path (and domain) using https://developer.enonic.com/docs/xp/stable/deployment/vhosts[vHosts]. Make sure the baseUrl in your React app is compliant with the deployment 
++
+. From the React app folder, build the static webapp:
++
+  npm install
+  npm run build
++
+. *Copy the static webapp files* from the React app `dist/` folder into your Enonic app. In this case `src/main/resources/webapp/files/`
++
+. In the Enonic app, *create a webapp controller* that will serve the SPA
++
+.src/main/resources/webapp/webapp.ts
+[source,typescript]
+----
+include::../src/main/resources/webapp/webapp.ts[]
+----
++
+. Build and deploy the Enonic app containing the SPA, you should see the result by visting http://localhost:8080/webapp/com.example.static[http://localhost:8080/webapp/com.example.static^]
+
+
+
+
+
+
+
+

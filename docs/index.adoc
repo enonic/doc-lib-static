@@ -1,48 +1,23 @@
-= Lib-static
+= Static library
 :toc: right
+
 
 == Introduction
 
-link:https://enonic.com/developer-tour[Enonic XP] library for serving static assets.
+Fine grained control over static asset hosting (js, css + html) via your Enonic app. 
+Lib-static even supports hosting an entire static webapp.
 
-== Install
+NOTE: For a more simplistic approach to asset hosting, check out <<https://developer.enonic.com/docs/lib-asset#, lib-asset>> instead.
 
-Insert into `build.gradle` of your XP project, under `dependencies`, where `<version>` is the latest/requested version of this library.
+== Usage
 
-[source,groovy]
-----
-dependencies {
-	include 'com.enonic.lib:lib-static:<version>'
-}
-----
+There are many ways of setting up and using lib-static, the gist is:
 
-== Use
+. Add the library to your app via a dependency
+. Use a service, mapping or webapp to serve the assets.
+. Place the asset files in your Enonic project's src/main/resources/static/ folder
+. Create links to assets from your controller
 
-In any link:https://developer.enonic.com/docs/xp/stable/framework/controllers[XP controller], import the library:
+We have created hands on use cases and examples using <<usage#, services, mappings or webapps>>.
 
-Ecma/TypeScript:
-[source,typescript]
-----
-import {requestHandler} from '/lib/enonic/static';
-----
-
-JavaScript:
-[source,javascript]
-----
-const libStatic = require('/lib/enonic/static');
-----
-
-== API
-
-* <<api/requestHandler#, requestHandler>>
-* <<api/defaultCacheControl#, defaultCacheControl>>
-* <<api/spaNotFoundHandler#, spaNotFoundHandler>>
-* <<api/mappedRelativePath#, mappedRelativePath>>
-* <<api/constants#, constants>>
-* <<api/types#, types>>
-
-== Examples
-
-* <<examples/singlePageReactWebapp#, Single page React web-application>>
-* <<examples/service#, Service>>
-* <<examples/mapped#, Mapped serving>>
+For more details, visit the <<api#, API documentation>>

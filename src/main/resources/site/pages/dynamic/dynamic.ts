@@ -1,6 +1,6 @@
 import {serviceUrl} from '/lib/xp/portal';
 
-// Concatenate the service URL with the path to the static file.
+// Static URL helper function
 const myStaticUrl = (path: string) => `${serviceUrl({service: 'myStatic'})}/${path}`;
 
 export const get = () => {
