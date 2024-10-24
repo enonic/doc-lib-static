@@ -460,7 +460,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-For a more simplistic approach to asset hosting, check out <a href="https://developer.enonic.com/docs/lib-asset.ahtml">lib-asset</a> instead.
+For a more simplistic approach to asset hosting, check out <a href="#https://developer.enonic.com/docs/lib-asset">lib-asset</a> instead.
 </td>
 </tr>
 </table>
@@ -482,7 +482,7 @@ For a more simplistic approach to asset hosting, check out <a href="https://deve
 <p>Place your files in the <code>/src/main/resources/static/</code> folder</p>
 </li>
 <li>
-<p>Use a <a href="usage.ahtml">service, mapping or webapp</a> to devliver the assets.</p>
+<p>Use a <a href="usage.ahtml">service, mapping or webapp</a> to deliver the assets.</p>
 </li>
 <li>
 <p>Use relative links, or create links to assets from your controllers</p>
@@ -490,7 +490,7 @@ For a more simplistic approach to asset hosting, check out <a href="https://deve
 </ol>
 </div>
 <div class="paragraph">
-<p>We have created hands on <a href="usage.ahtml">usage examples</a> to give you a flying start.</p>
+<p>We have created hands-on <a href="usage.ahtml">usage examples</a> to give you a flying start.</p>
 </div>
 <div class="paragraph">
 <p>For more details, visit the <a href="api.ahtml">API documentation</a></p>
@@ -500,7 +500,7 @@ For a more simplistic approach to asset hosting, check out <a href="https://deve
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-10-23 12:28:21 UTC
+Last updated 2024-10-24 10:29:47 UTC
 </div>
 </div>
 </body>

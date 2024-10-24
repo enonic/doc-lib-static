@@ -454,7 +454,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="introduction"><a class="link" href="#introduction">Introduction</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>There are multiple ways of deploying and using lib-static in your application. Below we expore the most common approaches. This includes how you may setup lib-static to service different files, using different cache headers.</p>
+<p>There are multiple ways of deploying and using lib-static in your application. Below we expore the most common approaches. This includes how you may set up lib-static to service different files, using different cache headers.</p>
 </div>
 </div>
 </div>
@@ -462,7 +462,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="common"><a class="link" href="#common">Common</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Follow these initial steps to get started, they are common for all examples below:</p>
+<p>Follow these initial steps to get started, they are common for all the examples below:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -509,7 +509,7 @@ Replace <code>${libVersion}</code> with the desired version of lib-static.
 <h2 id="service_example"><a class="link" href="#service_example">Service example</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This demonstrates how to serve asset using an <a href="https://developer.enonic.com/docs/xp/stable/runtime/engines/http-service">http service</a>.</p>
+<p>This demonstrates how to serve assets using a <a href="https://developer.enonic.com/docs/xp/stable/runtime/engines/http-service">http service</a>.</p>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -588,7 +588,7 @@ export const all = (request) =&gt; router.dispatch(request);</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>/src/main/resources/static/</code> is the default location lib static will look for the files
+<code>/src/main/resources/static/</code> is the default location where lib static will look for the files
 </td>
 </tr>
 </table>
@@ -636,7 +636,7 @@ export const get = () =&gt; {
 <h2 id="site_mapping_example"><a class="link" href="#site_mapping_example">Site mapping example</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Developers using site engine, may want to serve the assets from a pretty URL, rather than a service endpoint.</p>
+<p>Developers using site engine may want to serve the assets from a pretty URL, rather than a service endpoint.</p>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -735,10 +735,22 @@ export const all = (request) =&gt; router.dispatch(request);</code></pre>
 <div class="paragraph">
 <p>Lib static is also capable of acting like a webserver, serving html-files. In this example we use XP&#8217;s /webapp feature to do the job. To make the example as realistic as possible, we use a React SPA created with Vite.</p>
 </div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read more about <a href="#https://developer.enonic.com/docs/xp/stable/runtime/engines/webapp-engine">XP webapps</a>
+</td>
+</tr>
+</table>
+</div>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>Showcases advanced use-cases like:</p>
+<p>This example demonstrates advanced use-cases like:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -799,7 +811,7 @@ export default App</code></pre>
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-You may serve the webapp from any context path (and domain) using <a href="https://developer.enonic.com/docs/xp/stable/deployment/vhosts">vHosts</a>. Make sure the baseUrl in your React app is compliant with the deployment
+You may serve the webapp from any context path (and domain) using <a href="https://developer.enonic.com/docs/xp/stable/deployment/vhosts">vHosts</a>. Make sure the baseUrl in your React app is compliant with the deployment.
 </td>
 </tr>
 </table>
@@ -861,7 +873,7 @@ export const all = (request) =&gt; router.dispatch(request);</code></pre>
 </div>
 </li>
 <li>
-<p>Build and deploy the Enonic app containing the SPA, you should see the result by visting <a href="http://localhost:8080/webapp/com.example.static" target="_blank" rel="noopener">http://localhost:8080/webapp/com.example.static</a></p>
+<p>Build and deploy the Enonic app containing the SPA, you should see the result by visiting <a href="http://localhost:8080/webapp/com.example.static" target="_blank" rel="noopener">http://localhost:8080/webapp/com.example.static</a></p>
 </li>
 </ol>
 </div>
@@ -870,7 +882,7 @@ export const all = (request) =&gt; router.dispatch(request);</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-10-23 12:28:21 UTC
+Last updated 2024-10-24 10:29:47 UTC
 </div>
 </div>
 </body>

@@ -552,7 +552,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>It&#8217;s used as a callback and is the default value for the <code>cacheControl</code> option in the <a href="#api/requestHandler">requestHandler</a> function.</p>
 </div>
 <div class="paragraph">
-<p>When yielded inside the requestHandler it gets passed the found resource, it&#8217;s content type and path.</p>
+<p>When yielded inside the requestHandler it gets passed the found resource, its content type and path.</p>
 </div>
 <div class="sect2">
 <h3 id="type_signature"><a class="link" href="#type_signature">Type signature</a></h3>
@@ -782,7 +782,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Whenever a request doesn&#8217;t match a static asset, lib-static would by default return a 404 Response.</p>
 </div>
 <div class="paragraph">
-<p>This is not desireable for a SPA, because the request might be to a client-side routed page, and not a missing static asset.</p>
+<p>This is not desirable for an SPA, because the request might be to a client-side routed page, and not a missing static asset.</p>
 </div>
 <div class="paragraph">
 <p>Such requests can happen when someone reloads or opens a bookmarked url to a client-side routed page.</p>
@@ -905,7 +905,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-10-23 12:28:21 UTC
+Last updated 2024-10-24 10:29:47 UTC
 </div>
 </div>
 </body>
