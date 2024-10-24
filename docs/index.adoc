@@ -6,7 +6,7 @@
 
 Achieve ultra-high performance with detailed control over edge and client caching for your static assets. Serve files bundled in your Enonic app (i.e. js, css + html) with fine-grained control over cache headers and error handling, suitable even for hosting static webapps and SPAs.
 
-NOTE: For a more simplistic approach to asset hosting, check out <<https://developer.enonic.com/docs/lib-asset#, lib-asset>> instead.
+NOTE: For a more simplistic approach to asset hosting, check out <<https://developer.enonic.com/docs/lib-asset, lib-asset>> instead.
 
 == Usage
 
@@ -14,9 +14,9 @@ There are many ways of setting up and using lib-static, the gist is:
 
 . Add a dependency to lib-static
 . Place your files in the `/src/main/resources/static/` folder
-. Use a <<usage#, service, mapping or webapp>> to devliver the assets.
-. Use relative links, or create links to assets from your controllers 
+. Use a <<usage#, service, mapping or webapp>> to deliver the assets.
+. Use relative links, or create links to assets from your controllers
 
-We have created hands on <<usage#, usage examples>> to give you a flying start.
+We have created hands-on <<usage#, usage examples>> to give you a flying start.
 
 For more details, visit the <<api#, API documentation>>

@@ -27,7 +27,7 @@ Function that returns a cache control header value.
 
 It's used as a callback and is the default value for the `cacheControl` option in the <<api/requestHandler,requestHandler>> function.
 
-When yielded inside the requestHandler it gets passed the found resource, it's content type and path.
+When yielded inside the requestHandler it gets passed the found resource, its content type and path.
 
 === Type signature
 
@@ -108,7 +108,7 @@ Single page applications (SPA) typically consists of some static assets (stylesh
 
 Whenever a request doesn't match a static asset, lib-static would by default return a 404 Response.
 
-This is not desireable for a SPA, because the request might be to a client-side routed page, and not a missing static asset.
+This is not desirable for an SPA, because the request might be to a client-side routed page, and not a missing static asset.
 
 Such requests can happen when someone reloads or opens a bookmarked url to a client-side routed page.
 

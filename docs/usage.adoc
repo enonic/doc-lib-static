@@ -3,11 +3,11 @@
 
 == Introduction
 
-There are multiple ways of deploying and using lib-static in your application. Below we expore the most common approaches. This includes how you may setup lib-static to service different files, using different cache headers.
+There are multiple ways of deploying and using lib-static in your application. Below we expore the most common approaches. This includes how you may set up lib-static to service different files, using different cache headers.
 
 == Common
 
-Follow these initial steps to get started, they are common for all examples below:
+Follow these initial steps to get started, they are common for all the examples below:
 
 . Use an existing Enonic app, or create a new one with the following command:
 +
@@ -30,7 +30,7 @@ You can now move on to the various examples below:
 
 == Service example
 
-This demonstrates how to serve asset using an https://developer.enonic.com/docs/xp/stable/runtime/engines/http-service[http service].
+This demonstrates how to serve assets using a https://developer.enonic.com/docs/xp/stable/runtime/engines/http-service[http service].
 
 ====
 This example showcases:
@@ -58,7 +58,7 @@ include::../src/main/resources/services/myStatic/myStatic.ts[]
 include::../src/main/resources/static/css/style.css[]
 ----
 +
-NOTE: `/src/main/resources/static/` is the default location lib static will look for the files
+NOTE: `/src/main/resources/static/` is the default location where lib static will look for the files
 +
 . Add a page controller that links to the stylesheet.
 +
@@ -73,7 +73,7 @@ include::../src/main/resources/site/pages/dynamic/dynamic.ts[]
 
 == Site mapping example
 
-Developers using site engine, may want to serve the assets from a pretty URL, rather than a service endpoint.
+Developers using site engine may want to serve the assets from a pretty URL, rather than a service endpoint.
 
 ====
 This example demonstrates
@@ -114,8 +114,10 @@ include::../src/main/resources/site/controllers/myController/files/css/styles.cs
 
 Lib static is also capable of acting like a webserver, serving html-files. In this example we use XP's /webapp feature to do the job. To make the example as realistic as possible, we use a React SPA created with Vite.
 
+TIP: Read more about <<https://developer.enonic.com/docs/xp/stable/runtime/engines/webapp-engine, XP webapps>>
+
 ====
-Showcases advanced use-cases like:
+This example demonstrates advanced use-cases like:
 
 * Custom Cache control handling
 * Fallback handling to SPA file for 404
@@ -135,7 +137,7 @@ Showcases advanced use-cases like:
 include::../src/vite/App.tsx[]
 ----
 +
-TIP: You may serve the webapp from any context path (and domain) using https://developer.enonic.com/docs/xp/stable/deployment/vhosts[vHosts]. Make sure the baseUrl in your React app is compliant with the deployment 
+TIP: You may serve the webapp from any context path (and domain) using https://developer.enonic.com/docs/xp/stable/deployment/vhosts[vHosts]. Make sure the baseUrl in your React app is compliant with the deployment.
 +
 . From the React app folder, build the static webapp:
 +
@@ -152,7 +154,7 @@ TIP: You may serve the webapp from any context path (and domain) using https://d
 include::../src/main/resources/webapp/webapp.ts[]
 ----
 +
-. Build and deploy the Enonic app containing the SPA, you should see the result by visting http://localhost:8080/webapp/com.example.static[http://localhost:8080/webapp/com.example.static^]
+. Build and deploy the Enonic app containing the SPA, you should see the result by visiting http://localhost:8080/webapp/com.example.static[http://localhost:8080/webapp/com.example.static^]
 
 
 
