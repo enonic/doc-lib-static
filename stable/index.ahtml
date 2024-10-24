@@ -460,7 +460,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-For a more simplistic approach to asset hosting, check out <a href="#https://developer.enonic.com/docs/lib-asset">lib-asset</a> instead.
+For a more simplistic approach to asset hosting, check out <a href="https://developer.enonic.com/docs/lib-asset">lib-asset</a> instead.
 </td>
 </tr>
 </table>
@@ -500,7 +500,7 @@ For a more simplistic approach to asset hosting, check out <a href="#https://dev
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-10-24 10:29:47 UTC
+Last updated 2024-10-24 10:32:27 UTC
 </div>
 </div>
 </body>
