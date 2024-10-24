@@ -6,7 +6,7 @@
 
 Achieve ultra-high performance with detailed control over edge and client caching for your static assets. Serve files bundled in your Enonic app (i.e. js, css + html) with fine-grained control over cache headers and error handling, suitable even for hosting static webapps and SPAs.
 
-NOTE: For a more simplistic approach to asset hosting, check out <<https://developer.enonic.com/docs/lib-asset, lib-asset>> instead.
+NOTE: For a more simplistic approach to asset hosting, check out https://developer.enonic.com/docs/lib-asset[lib-asset] instead.
 
 == Usage
 
