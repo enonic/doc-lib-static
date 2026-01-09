@@ -39,7 +39,7 @@
     "glob": "^11.1.0",
     "globals": "^15.9.0",
     "precompress": "^12.0.5",
-    "react-router-dom": "^6.26.2",
+    "react-router-dom": "^6.30.3",
     "tsup": "^8.2.4",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.7.0",
