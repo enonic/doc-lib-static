@@ -3,7 +3,7 @@
 
 == Introduction
 
-There are multiple ways of deploying and using lib-static in your application. Below we expore the most common approaches. This includes how you may set up lib-static to service different files, using different cache headers.
+There are multiple ways of deploying and using lib-static in your application. Below we explore the most common approaches. This includes how you may set up lib-static to serve different files, using different cache headers.
 
 == Common
 
@@ -27,88 +27,6 @@ dependencies {
 NOTE: Replace `${libVersion}` with the desired version of lib-static.
 
 You can now move on to the various examples below:
-
-== Service example
-
-This demonstrates how to serve assets using a https://developer.enonic.com/docs/xp/stable/runtime/engines/http-service[http service].
-
-====
-This example showcases:
-
-* Serving assets from the default static folder
-* Overriding "immutable" default cache headers
-* Disabling serving of index.html files
-====
-
-. Start by *adding a service* to your app.
-+
-./src/main/resources/services/myStatic/myStatic.ts
-[source,typescript]
-----
-include::../src/main/resources/services/myStatic/myStatic.ts[]
-----
-<1> As the files are not hashed, override the default immutable cache header
-<2> Disable serving of index.html files
-+
-. Place a folder and stylesheet in the app:
-+
-./src/main/resources/static/css/style.css
-[source,css]
-----
-include::../src/main/resources/static/css/style.css[]
-----
-+
-NOTE: `/src/main/resources/static/` is the default location where lib static will look for the files
-+
-. Add a page controller that links to the stylesheet.
-+
-./src/main/resources/site/pages/dynamic/dynamic.ts
-[source,TypeScript]
-----
-include::../src/main/resources/site/pages/dynamic/dynamic.ts[]
-----
-+
-. Create a site with a page using this controller, you should instantly see the result.
-
-
-== Site mapping example
-
-Developers using site engine may want to serve the assets from a pretty URL, rather than a service endpoint.
-
-====
-This example demonstrates
-
-* use of relativeMappedPath
-* using a custom static folder location
-====
-
-. Create a controller that will serve the files:
-+
-.site/controllers/myController/myController.ts
-[source,typescript]
-----
-include::../src/main/resources/site/controllers/myController/myController.ts[]
-----
-<1> relativeMappedPath must match the mapping in `site.yaml` below
-<2> Defines a custom location where the controller will look for static files
-+
-. *Define the mapping* in your `site.yaml` file.
-+
-.site/site.yaml
-[source,yaml]
-----
-include::../src/main/resources/site/site.yaml[]
-----
-+
-. *Add a file* to the static files folder. In this case we place the files together with the controller:
-+
-.site/controllers/myController/files/css/styles.css
-[source,css]
-----
-include::../src/main/resources/site/controllers/myController/files/css/styles.css[]
-----
-+
-. Build, deploy and add the application to a site. The files will be served from site-relative mapping path (in this case `/mymapping/css/styles.css`).
 
 == Webapp example
 
@@ -154,12 +72,122 @@ TIP: You may serve the webapp from any context path (and domain) using https://d
 include::../src/main/resources/webapp/webapp.ts[]
 ----
 +
-. Build and deploy the Enonic app containing the SPA, you should see the result by visiting http://localhost:8080/webapp/com.example.static[http://localhost:8080/webapp/com.example.static^]
+. Build and deploy the Enonic app containing the SPA, you should see the result by visiting http://localhost:8080/webapp/com.example.static[http://localhost:8080/webapp/com.example.static]
 
+== Site mapping example
 
+Developers using site engine may want to serve the assets from a pretty URL, rather than a service endpoint.
 
+====
+This example demonstrates
 
+* use of relativeMappedPath
+* using a custom static folder location
+====
 
+. Create a controller that will serve the files:
++
+.site/controllers/myController/myController.ts
+[source,typescript]
+----
+include::../src/main/resources/site/controllers/myController/myController.ts[]
+----
+<1> relativeMappedPath must match the mapping in `site.yaml` below
+<2> Defines a custom location where the controller will look for static files
++
+. *Define the mapping* in your `site.yaml` file.
++
+.site/site.yaml
+[source,yaml]
+----
+include::../src/main/resources/site/site.yaml[]
+----
++
+. *Add a file* to the static files folder. In this case we place the files together with the controller:
++
+.site/controllers/myController/files/css/styles.css
+[source,css]
+----
+include::../src/main/resources/site/controllers/myController/files/css/styles.css[]
+----
++
+. Build, deploy and add the application to a site. The files will be served from site-relative mapping path (in this case `/mymapping/css/styles.css`).
 
+== AdminExtension example
 
+Admin extensions can't expose lib-asset's Universal API endpoint (see the lib-asset warning), so static assets have to be served through the extension controller itself. lib-static + lib-router pairs cleanly for that — one route dispatches static requests, another renders the extension UI.
 
+====
+This example demonstrates
+
+* Serving static assets from inside an admin extension
+* lib-router dispatch with a static-prefix route
+* Building asset URLs relative to the extension's `contextPath`
+====
+
+. *Define the extension descriptor.* The extension is mounted by XP at a URL like `/_/admin:extension/com.example.static:myExtension`.
++
+.src/main/resources/admin/extensions/myExtension/myExtension.yaml
+[source,yaml]
+----
+include::../src/main/resources/admin/extensions/myExtension/myExtension.yaml[]
+----
++
+. *Add the controller.* lib-router routes anything under `/_static/` to lib-static; everything else renders the widget HTML.
++
+.src/main/resources/admin/extensions/myExtension/myExtension.ts
+[source,typescript]
+----
+include::../src/main/resources/admin/extensions/myExtension/myExtension.ts[]
+----
+<1> Requests with the `/_static/` prefix are forwarded to lib-static; `mappedRelativePath('_static')` strips the prefix before lib-static resolves against `root`.
+<2> The catch-all route renders the widget. Asset URLs are built relative to `request.contextPath` so they keep working under any admin mount.
++
+. *Place a stylesheet next to the controller:*
++
+.src/main/resources/admin/extensions/myExtension/files/styles.css
+[source,css]
+----
+include::../src/main/resources/admin/extensions/myExtension/files/styles.css[]
+----
++
+. Build, deploy, and open the extension in the admin UI — the stylesheet loads via `${contextPath}/_static/styles.css`.
+
+== IdProvider example
+
+ID provider controllers, like admin extensions, can't use lib-asset (per the lib-asset warning). For an ID provider that wants to ship its own stylesheet or icon set with the login page, pair lib-static with lib-router the same way: one route serves static, the others handle login / logout / etc.
+
+====
+This example demonstrates
+
+* Serving static assets from inside an ID provider
+* Co-existence of static-asset routing and the regular `login` / `logout` handlers
+====
+
+. *Define the ID provider descriptor:*
++
+.src/main/resources/idprovider/idprovider.yaml
+[source,yaml]
+----
+include::../src/main/resources/idprovider/idprovider.yaml[]
+----
++
+. *Add the controller.* The `get` export dispatches via lib-router; `login` / `logout` are exported separately as XP expects.
++
+.src/main/resources/idprovider/idprovider.ts
+[source,typescript]
+----
+include::../src/main/resources/idprovider/idprovider.ts[]
+----
+<1> Static requests under `/_static/` are forwarded to lib-static.
+<2> Anything else falls through to render the login page.
++
+. *Place a stylesheet next to the controller:*
++
+.src/main/resources/idprovider/files/login.css
+[source,css]
+----
+include::../src/main/resources/idprovider/files/login.css[]
+----
++
+. Build, deploy, and configure a site to use the ID provider — the login page loads its own stylesheet via the static route.

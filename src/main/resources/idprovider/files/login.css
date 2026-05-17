@@ -1,0 +1,6 @@
+form {
+    display: grid;
+    gap: 0.5rem;
+    max-width: 18rem;
+    font-family: sans-serif;
+}
