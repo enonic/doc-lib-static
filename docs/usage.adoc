@@ -32,16 +32,55 @@ You can now move on to the various examples below:
 
 == Webapp example
 
-Lib static is also capable of acting like a webserver, serving html-files. In this example we use XP's /webapp feature to do the job. To make the example as realistic as possible, we use a React SPA created with Vite.
+The simplest way to serve a static site with lib-static: a webapp controller that delegates every GET to `requestHandler` with all defaults — root `/assets`, `index.html` as the directory index, immutable cache headers.
 
-TIP: Read more about <<https://developer.enonic.com/docs/xp/stable/runtime/engines/webapp-engine, XP webapps>>
+TIP: Read more about https://developer.enonic.com/docs/xp/stable/runtime/engines/webapp-engine[XP webapps].
+
+====
+This example demonstrates
+
+* Serving files from the default `/assets` root
+* `index.html` resolution for directory-like URLs
+* The minimum possible controller wiring
+====
+
+. *Place files under `src/main/resources/assets/`:*
++
+.src/main/resources/assets/index.html
+[source,html]
+----
+include::../src/main/resources/assets/index.html[]
+----
++
+.src/main/resources/assets/style.css
+[source,css]
+----
+include::../src/main/resources/assets/style.css[]
+----
++
+. *Add the webapp controller:*
++
+.src/main/resources/webapp/webapp.ts
+[source,typescript]
+----
+include::../src/main/resources/webapp/webapp.ts[]
+----
++
+That's the whole thing — `requestHandler` is exported directly as the `get` handler. lib-router is *not* required here: the controller has no dynamic responses to split off from the static ones.
++
+. Build, deploy, and visit http://localhost:8080/webapp/com.example.static[http://localhost:8080/webapp/com.example.static].
+
+== Webapp SPA example
+
+For a more involved case — a React (or any other framework) single-page app with build-time fingerprinted assets, custom cache rules, and a `notFound` fallback to `index.html` — lib-static and lib-router pair to handle both static asset serving and the SPA fallback in one controller.
 
 ====
 This example demonstrates advanced use-cases like:
 
-* Custom Cache control handling
-* Fallback handling to SPA file for 404
-* Custom static folder location
+* Custom Cache control handling per file
+* Fallback to SPA `index.html` on 404 (so client-side routing works)
+* Custom static folder location (`/webapp/files`)
+* Pairing with lib-router to keep the dispatch readable
 ====
 
 . Create a new React app using Vite
@@ -66,15 +105,17 @@ TIP: You may serve the webapp from any context path (and domain) using https://d
 +
 . *Copy the static webapp files* from the React app `dist/` folder into your Enonic app. In this case `src/main/resources/webapp/files/`
 +
-. In the Enonic app, *create a webapp controller* that will serve the SPA
+. In the Enonic app, *create the webapp controller* that will serve the SPA:
 +
 .src/main/resources/webapp/webapp.ts
 [source,typescript]
 ----
-include::../src/main/resources/webapp/webapp.ts[]
+include::../src/main/resources/webapp/webapp-spa.ts[]
 ----
+<1> `cacheControl` is a function — you can return `RESPONSE_CACHE_CONTROL.SAFE` for files without a content hash (like `vite.svg`), and `defaultCacheControl` (immutable) for everything else.
+<2> `spaNotFoundHandler` serves `index.html` on 404 so client-side routing keeps working.
 +
-. Build and deploy the Enonic app containing the SPA, you should see the result by visiting http://localhost:8080/webapp/com.example.static[http://localhost:8080/webapp/com.example.static]
+. Build and deploy the Enonic app containing the SPA, you should see the result by visiting http://localhost:8080/webapp/com.example.static[http://localhost:8080/webapp/com.example.static].
 
 == Site mapping example
 
