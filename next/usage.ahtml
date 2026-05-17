@@ -443,9 +443,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#common">Common</a></li>
-<li><a href="#service_example">Service example</a></li>
-<li><a href="#site_mapping_example">Site mapping example</a></li>
 <li><a href="#webapp_example">Webapp example</a></li>
+<li><a href="#webapp_spa_example">Webapp SPA example</a></li>
+<li><a href="#site_mapping_example">Site mapping example</a></li>
+<li><a href="#adminextension_example">AdminExtension example</a></li>
+<li><a href="#idprovider_example">IdProvider example</a></li>
 </ul>
 </div>
 </div>
@@ -454,7 +456,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="introduction"><a class="link" href="#introduction">Introduction</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>There are multiple ways of deploying and using lib-static in your application. Below we expore the most common approaches. This includes how you may set up lib-static to service different files, using different cache headers.</p>
+<p>There are multiple ways of deploying and using lib-static in your application. Below we explore the most common approaches. This includes how you may set up lib-static to serve different files, using different cache headers.</p>
 </div>
 </div>
 </div>
@@ -476,15 +478,21 @@ enonic create com.example.static -r starter-ts</pre>
 </div>
 </li>
 <li>
-<p>Add the lib-static dependency with a single line</p>
+<p>Add the lib-static dependency:</p>
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
 <pre class="highlight"><code class="language-groovy" data-lang="groovy">dependencies {
   include "com.enonic.lib:lib-static:${libVersion}"
+  include "com.enonic.lib:lib-router:${routerVersion}" <i class="conum" data-value="1"></i><b>(1)</b>
 }</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Optional. lib-router is not required to use lib-static, but it is very handy for splitting static resources and dynamic ones inside the same controller, as demonstrated in the examples below. Skip it if your controller only serves static assets.
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -492,8 +500,11 @@ enonic create com.example.static -r starter-ts</pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Replace <code>${libVersion}</code> with the desired version of lib-static.
+Replace <code>${libVersion}</code> / <code>${routerVersion}</code> with the desired versions of lib-static and lib-router.
 </td>
+</tr>
+</table>
+</div></td>
 </tr>
 </table>
 </div>
@@ -506,26 +517,38 @@ Replace <code>${libVersion}</code> with the desired version of lib-static.
 </div>
 </div>
 <div class="sect1">
-<h2 id="service_example"><a class="link" href="#service_example">Service example</a></h2>
+<h2 id="webapp_example"><a class="link" href="#webapp_example">Webapp example</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This demonstrates how to serve assets using a <a href="https://developer.enonic.com/docs/xp/stable/runtime/engines/http-service">http service</a>.</p>
+<p>The simplest way to serve a static site with lib-static: a webapp controller that delegates every GET to <code>requestHandler</code> with all defaults — root <code>/assets</code>, <code>index.html</code> as the directory index, immutable cache headers.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read more about <a href="https://developer.enonic.com/docs/xp/stable/runtime/engines/webapp-engine">XP webapps</a>.
+</td>
+</tr>
+</table>
 </div>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>This example showcases:</p>
+<p>This example demonstrates</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Serving assets from the default static folder</p>
+<p>Serving files from the default <code>/assets</code> root</p>
 </li>
 <li>
-<p>Overriding "immutable" default cache headers</p>
+<p><code>index.html</code> resolution for directory-like URLs</p>
 </li>
 <li>
-<p>Disabling serving of index.html files</p>
+<p>The minimum possible controller wiring</p>
 </li>
 </ul>
 </div>
@@ -534,99 +557,196 @@ Replace <code>${libVersion}</code> with the desired version of lib-static.
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Start by <strong>adding a service</strong> to your app.</p>
+<p><strong>Place files under <code>src/main/resources/assets/</code>:</strong></p>
 <div class="listingblock">
-<div class="title">/src/main/resources/services/myStatic/myStatic.ts</div>
+<div class="title">src/main/resources/assets/index.html</div>
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;lib-static — minimal webapp&lt;/title&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello from lib-static&lt;/h1&gt;
+    &lt;p&gt;This page is served straight from &lt;code&gt;/assets/&lt;/code&gt; by &lt;code&gt;requestHandler&lt;/code&gt;.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">src/main/resources/assets/style.css</div>
+<div class="content">
+<pre class="highlight"><code class="language-css" data-lang="css">body {
+    font-family: sans-serif;
+    margin: 2rem;
+}
+
+h1 {
+    color: tomato;
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Add the webapp controller:</strong></p>
+<div class="listingblock">
+<div class="title">src/main/resources/webapp/webapp.ts</div>
+<div class="content">
+<pre class="highlight"><code class="language-typescript" data-lang="typescript">import {requestHandler} from '/lib/enonic/static';
+
+export const GET = requestHandler;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>That&#8217;s the whole thing — <code>requestHandler</code> is exported directly as the <code>get</code> handler. lib-router is <strong>not</strong> required here: the controller has no dynamic responses to split off from the static ones.</p>
+</div>
+</li>
+<li>
+<p>Build, deploy, and visit <a href="http://localhost:8080/webapp/com.example.static">http://localhost:8080/webapp/com.example.static</a>.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="webapp_spa_example"><a class="link" href="#webapp_spa_example">Webapp SPA example</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For a more involved case — a React (or any other framework) single-page app with build-time fingerprinted assets, custom cache rules, and a <code>notFound</code> fallback to <code>index.html</code> — lib-static and lib-router pair to handle both static asset serving and the SPA fallback in one controller.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>This example demonstrates advanced use-cases like:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Custom Cache control handling per file</p>
+</li>
+<li>
+<p>Fallback to SPA <code>index.html</code> on 404 (so client-side routing works)</p>
+</li>
+<li>
+<p>Custom static folder location (<code>/webapp/files</code>)</p>
+</li>
+<li>
+<p>Pairing with lib-router to keep the dispatch readable</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a new React app using Vite</p>
+<div class="literalblock">
+<div class="content">
+<pre>npm create vite@latest my-app-name -- --template react-ts
+cd my-app-name</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Replace the default App.tsx file with this:</p>
+<div class="listingblock">
+<div class="title">/src/vite/App.tsx</div>
+<div class="content">
+<pre class="highlight"><code class="language-typescript" data-lang="typescript">import './App.css'
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+
+function App() {
+  return (
+      &lt;BrowserRouter basename='/webapp/com.example.static'&gt; {/* &lt;1&gt; */}
+        &lt;Routes&gt;
+          &lt;Route path="/" element={&lt;Link to="/bookmarkable"&gt;Bookmarkable&lt;/Link&gt;}/&gt;
+          &lt;Route path="/bookmarkable" element={&lt;Link to="/"&gt;Home&lt;/Link&gt;}/&gt;
+          &lt;Route path="*" element={&lt;div&gt;
+            &lt;h1&gt;404&lt;/h1&gt;
+            &lt;Link to="/"&gt;Go home&lt;/Link&gt;
+          &lt;/div&gt;}/&gt;
+        &lt;/Routes&gt;
+      &lt;/BrowserRouter&gt;
+  )
+}
+
+export default App</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You may serve the webapp from any context path (and domain) using <a href="https://developer.enonic.com/docs/xp/stable/deployment/vhosts">vHosts</a>. Make sure the baseUrl in your React app is compliant with the deployment.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>From the React app folder, build the static webapp:</p>
+<div class="literalblock">
+<div class="content">
+<pre>npm install
+npm run build</pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Copy the static webapp files</strong> from the React app <code>dist/</code> folder into your Enonic app. In this case <code>src/main/resources/webapp/files/</code></p>
+</li>
+<li>
+<p>In the Enonic app, <strong>create the webapp controller</strong> that will serve the SPA:</p>
+<div class="listingblock">
+<div class="title">src/main/resources/webapp/webapp.ts</div>
 <div class="content">
 <pre class="highlight"><code class="language-typescript" data-lang="typescript">import {
   RESPONSE_CACHE_CONTROL,
+  defaultCacheControl,
   requestHandler,
+  spaNotFoundHandler,
 } from '/lib/enonic/static';
 import Router from '/lib/router';
 
 const router = Router();
-router.all('{path:.*}', (request) =&gt; {
-  return requestHandler(
-    request,
-    {
-      cacheControl: () =&gt; RESPONSE_CACHE_CONTROL.SAFE, <i class="conum" data-value="1"></i><b>(1)</b>
-      index: false, <i class="conum" data-value="2"></i><b>(2)</b>
-    }
-  );
-});
 
-export const all = (request) =&gt; router.dispatch(request);</code></pre>
+router.get('{path:.*}', (request) =&gt; requestHandler(request, {
+  cacheControl: ({contentType, path, resource}) =&gt; { <i class="conum" data-value="1"></i><b>(1)</b>
+    // The "webapp/files/vite.svg" file has no contentHash
+    if (path.startsWith('/vite.svg')) {
+      return RESPONSE_CACHE_CONTROL.SAFE;
+    }
+    // Fall back to defaultCacheControl for all other assets.
+    return defaultCacheControl({contentType, path, resource});
+  },
+  notFound: spaNotFoundHandler, <i class="conum" data-value="2"></i><b>(2)</b>
+  root: '/webapp/files',
+}));
+
+export const GET = (request) =&gt; router.dispatch(request);</code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>As the files are not hashed, override the default immutable cache header</td>
+<td><code>cacheControl</code> is a function — you can return <code>RESPONSE_CACHE_CONTROL.SAFE</code> for files without a content hash (like <code>vite.svg</code>), and <code>defaultCacheControl</code> (immutable) for everything else.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Disable serving of index.html files</td>
+<td><code>spaNotFoundHandler</code> serves <code>index.html</code> on 404 so client-side routing keeps working.</td>
 </tr>
 </table>
 </div>
 </li>
 <li>
-<p>Place a folder and stylesheet in the app:</p>
-<div class="listingblock">
-<div class="title">/src/main/resources/static/css/style.css</div>
-<div class="content">
-<pre class="highlight"><code class="language-css" data-lang="css">body {
-  color: mediumblue;
-}</code></pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>/src/main/resources/static/</code> is the default location where lib static will look for the files
-</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p>Add a page controller that links to the stylesheet.</p>
-<div class="listingblock">
-<div class="title">/src/main/resources/site/pages/dynamic/dynamic.ts</div>
-<div class="content">
-<pre class="highlight"><code class="language-TypeScript" data-lang="TypeScript">import {serviceUrl} from '/lib/xp/portal';
-
-// Static URL helper function
-const myStaticUrl = (path: string) =&gt; `${serviceUrl({service: 'myStatic'})}/${path}`;
-
-export const get = () =&gt; {
-  return {
-    body: `&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Dynamic Page with static assets&lt;/title&gt;
-    &lt;link rel="stylesheet" href="${myStaticUrl('css/style.css')}"/&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;main&gt;
-        &lt;h1&gt;Dynamic Page with static assets&lt;/h1&gt;
-        &lt;p&gt;All text on this page shoule be mediumblue.&lt;/p&gt;
-    &lt;/main&gt;
-&lt;/body&gt;
-&lt;/html&gt;`,
-    status: 200
-  };
-};</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Create a site with a page using this controller, you should instantly see the result.</p>
+<p>Build and deploy the Enonic app containing the SPA, you should see the result by visiting <a href="http://localhost:8080/webapp/com.example.static">http://localhost:8080/webapp/com.example.static</a>.</p>
 </li>
 </ol>
 </div>
@@ -728,38 +848,26 @@ mappings:
 </div>
 </div>
 <div class="sect1">
-<h2 id="webapp_example"><a class="link" href="#webapp_example">Webapp example</a></h2>
+<h2 id="adminextension_example"><a class="link" href="#adminextension_example">AdminExtension example</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Lib static is also capable of acting like a webserver, serving html-files. In this example we use XP&#8217;s /webapp feature to do the job. To make the example as realistic as possible, we use a React SPA created with Vite.</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-Read more about <a href="#https://developer.enonic.com/docs/xp/stable/runtime/engines/webapp-engine">XP webapps</a>
-</td>
-</tr>
-</table>
+<p>In an admin extension, the controller handles everything that hits the extension URL — both the widget HTML and any assets it references. lib-static + lib-router pair cleanly for that: one route dispatches static requests, another renders the extension UI.</p>
 </div>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>This example demonstrates advanced use-cases like:</p>
+<p>This example demonstrates</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Custom Cache control handling</p>
+<p>Serving static assets from inside an admin extension</p>
 </li>
 <li>
-<p>Fallback handling to SPA file for 404</p>
+<p>lib-router dispatch with a static-prefix route</p>
 </li>
 <li>
-<p>Custom static folder location</p>
+<p>Building asset URLs relative to the extension&#8217;s <code>contextPath</code></p>
 </li>
 </ul>
 </div>
@@ -768,110 +876,171 @@ Read more about <a href="#https://developer.enonic.com/docs/xp/stable/runtime/en
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Create a new React app using Vite</p>
-<div class="literalblock">
+<p><strong>Define the extension descriptor.</strong> The extension is mounted by XP at a URL like <code>/_/admin:extension/com.example.static:my-extension</code>.</p>
+<div class="listingblock">
+<div class="title">src/main/resources/admin/extensions/my-extension/my-extension.yaml</div>
 <div class="content">
-<pre>npm create vite@latest my-app-name -- --template react-ts
-cd my-app-name</pre>
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">kind: "AdminExtension"
+title:
+  text: "Static asset demo"
+allow:
+  - "role:system.admin"</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>Replace the default App.tsx file with this:</p>
+<p><strong>Add the controller.</strong> lib-router routes anything under <code>/_static/</code> to lib-static; everything else renders the widget HTML.</p>
 <div class="listingblock">
-<div class="title">/src/vite/App.tsx</div>
+<div class="title">src/main/resources/admin/extensions/my-extension/my-extension.ts</div>
 <div class="content">
-<pre class="highlight"><code class="language-typescript" data-lang="typescript">import './App.css'
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+<pre class="highlight"><code class="language-typescript" data-lang="typescript">import {mappedRelativePath, requestHandler} from '/lib/enonic/static';
+import Router from '/lib/router';
 
-function App() {
-  return (
-      &lt;BrowserRouter basename='/webapp/com.example.static'&gt; {/* &lt;1&gt; */}
-        &lt;Routes&gt;
-          &lt;Route path="/" element={&lt;Link to="/bookmarkable"&gt;Bookmarkable&lt;/Link&gt;}/&gt;
-          &lt;Route path="/bookmarkable" element={&lt;Link to="/"&gt;Home&lt;/Link&gt;}/&gt;
-          &lt;Route path="*" element={&lt;div&gt;
-            &lt;h1&gt;404&lt;/h1&gt;
-            &lt;Link to="/"&gt;Go home&lt;/Link&gt;
-          &lt;/div&gt;}/&gt;
-        &lt;/Routes&gt;
-      &lt;/BrowserRouter&gt;
-  )
-}
+const router = Router();
 
-export default App</code></pre>
+router.get('/_static/{path:.*}', (request) =&gt; requestHandler(request, { <i class="conum" data-value="1"></i><b>(1)</b>
+  root: '/static/my-extension',
+  relativePath: mappedRelativePath('_static'),
+}));
+
+router.get('{path:.*}', (request) =&gt; ({ <i class="conum" data-value="2"></i><b>(2)</b>
+  contentType: 'text/html',
+  body: `&lt;link rel="stylesheet" href="${request.contextPath}/_static/styles.css"/&gt;`
+    + `&lt;h1&gt;Static asset demo&lt;/h1&gt;`,
+}));
+
+export const GET = (request) =&gt; router.dispatch(request);</code></pre>
 </div>
 </div>
-<div class="admonitionblock tip">
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Requests with the <code>/_static/</code> prefix are forwarded to lib-static; <code>mappedRelativePath('_static')</code> strips the prefix before lib-static resolves against <code>root</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The catch-all route renders the widget. Asset URLs are built relative to <code>request.contextPath</code> so they keep working under any admin mount.</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p><strong>Place a stylesheet under <code>src/main/resources/static/my-extension/</code></strong> — the static-asset folder the controller&#8217;s <code>root</code> option points at:</p>
+<div class="listingblock">
+<div class="title">src/main/resources/static/my-extension/styles.css</div>
+<div class="content">
+<pre class="highlight"><code class="language-css" data-lang="css">h1 {
+    color: tomato;
+    font-family: sans-serif;
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Build, deploy, and open the extension in the admin UI — the stylesheet loads via <code>${contextPath}/_static/styles.css</code>.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="idprovider_example"><a class="link" href="#idprovider_example">IdProvider example</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The login page of an ID provider is often plain static HTML — a form, a stylesheet, maybe a logo. The controller can serve it directly with <code>requestHandler</code>, the same way as the minimal webapp example. The form&#8217;s <code>action="login"</code> posts the submitted credentials to the ID provider&#8217;s <code>login</code> flow.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>This example demonstrates</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Serving the entire login page (HTML + CSS) as static files from inside an ID provider</p>
+</li>
+<li>
+<p>A controller that does nothing but delegate <code>GET</code> to <code>requestHandler</code></p>
+</li>
+<li>
+<p>No lib-router, no template rendering</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Define the ID provider descriptor:</strong></p>
+<div class="listingblock">
+<div class="title">src/main/resources/idprovider/idprovider.yaml</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">kind: "IdProvider"
+mode: "MIXED"</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Add the controller</strong> — three lines, just delegate <code>GET</code> to lib-static with a custom root:</p>
+<div class="listingblock">
+<div class="title">src/main/resources/idprovider/idprovider.ts</div>
+<div class="content">
+<pre class="highlight"><code class="language-typescript" data-lang="typescript">import {requestHandler} from '/lib/enonic/static';
+
+export const GET = (request) =&gt; requestHandler(request, {root: '/static/idprovider'});</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-You may serve the webapp from any context path (and domain) using <a href="https://developer.enonic.com/docs/xp/stable/deployment/vhosts">vHosts</a>. Make sure the baseUrl in your React app is compliant with the deployment.
+A real ID provider would also export <code>login</code> / <code>logout</code> / <code>handle401</code> — those are out of scope for this example, which only shows the static-asset wiring.
 </td>
 </tr>
 </table>
 </div>
 </li>
 <li>
-<p>From the React app folder, build the static webapp:</p>
-<div class="literalblock">
-<div class="content">
-<pre>npm install
-npm run build</pre>
-</div>
-</div>
-</li>
-<li>
-<p><strong>Copy the static webapp files</strong> from the React app <code>dist/</code> folder into your Enonic app. In this case <code>src/main/resources/webapp/files/</code></p>
-</li>
-<li>
-<p>In the Enonic app, <strong>create a webapp controller</strong> that will serve the SPA</p>
+<p><strong>Place the login page and its stylesheet under <code>src/main/resources/static/idprovider/</code></strong> — the static-asset folder the controller&#8217;s <code>root</code> option points at:</p>
 <div class="listingblock">
-<div class="title">src/main/resources/webapp/webapp.ts</div>
+<div class="title">src/main/resources/static/idprovider/index.html</div>
 <div class="content">
-<pre class="highlight"><code class="language-typescript" data-lang="typescript">import {
-  RESPONSE_CACHE_CONTROL,
-  defaultCacheControl,
-  requestHandler,
-  spaNotFoundHandler,
-} from '/lib/enonic/static';
-import Router from '/lib/router';
-
-const router = Router();
-router.get('{path:.*}', (request) =&gt; requestHandler(
-  request,
-  {
-    // Override the defaultCacheControl
-        contentType,
-        path,
-        resource,
-    }) =&gt; {
-      // The "webapp/files/vite.svg" file has no contentHash
-      if (path.startsWith('/vite.svg')) {
-        return RESPONSE_CACHE_CONTROL.SAFE;
-      }
-      // fall back to defaultCacheControl for all other assets.
-      return defaultCacheControl({
-        contentType,
-        path,
-        resource,
-      });
-    },
-    // Fallback to SPA index.html when asset not found
-    notFound: spaNotFoundHandler,
-    root: '/webapp/files',
-  }
-));
-
-export const all = (request) =&gt; router.dispatch(request);</code></pre>
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Sign in&lt;/title&gt;
+    &lt;link rel="stylesheet" href="login.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form action="login" method="post"&gt;
+        &lt;input name="user" placeholder="user" required&gt;
+        &lt;input name="password" type="password" placeholder="password" required&gt;
+        &lt;button type="submit"&gt;Sign in&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">src/main/resources/static/idprovider/login.css</div>
+<div class="content">
+<pre class="highlight"><code class="language-css" data-lang="css">form {
+    display: grid;
+    gap: 0.5rem;
+    max-width: 18rem;
+    font-family: sans-serif;
+}</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>Build and deploy the Enonic app containing the SPA, you should see the result by visiting <a href="http://localhost:8080/webapp/com.example.static" target="_blank" rel="noopener">http://localhost:8080/webapp/com.example.static</a></p>
+<p>Build, deploy, and configure a site to use the ID provider — the login page is served straight from <code>idprovider/files/index.html</code>.</p>
 </li>
 </ol>
 </div>
@@ -880,7 +1049,7 @@ export const all = (request) =&gt; router.dispatch(request);</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-17 07:04:08 UTC
+Last updated 2026-05-17 08:48:07 UTC
 </div>
 </div>
 </body>
