@@ -18,8 +18,3 @@ router.get('{path:.*}', (request) => ({ // <2>
 }));
 
 export const GET = (request) => router.dispatch(request);
-
-// XP also calls these specific entry points on the controller; left as stubs
-// here — see the ID provider docs for the full contract.
-export const login = (request) => ({status: 200});
-export const logout = (request) => ({status: 200});

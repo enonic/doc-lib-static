@@ -215,7 +215,7 @@ This example demonstrates
 include::../src/main/resources/idprovider/idprovider.yaml[]
 ----
 +
-. *Add the controller.* The `get` export dispatches via lib-router; `login` / `logout` are exported separately as XP expects.
+. *Add the controller.* The `GET` export dispatches via lib-router. A real ID provider would also export `login` / `logout` / `handle401`; those are left out here — this example only shows the static-asset wiring.
 +
 .src/main/resources/idprovider/idprovider.ts
 [source,typescript]
