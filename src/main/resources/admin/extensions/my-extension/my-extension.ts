@@ -1,11 +1,11 @@
-import {mappedRelativePath, requestHandler} from '/lib/enonic/static';
+import {requestHandler} from '/lib/enonic/static';
 import Router from '/lib/router';
 
 const router = Router();
 
 router.get('/_static/{path:.*}', (request) => requestHandler(request, { // <1>
   root: '/static/my-extension',
-  relativePath: mappedRelativePath('_static'),
+  relativePath: (req) => req.pathParams.path,
 }));
 
 router.get('{path:.*}', (request) => ({ // <2>
