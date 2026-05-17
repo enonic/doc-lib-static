@@ -198,13 +198,14 @@ include::../src/main/resources/admin/extensions/myExtension/files/styles.css[]
 
 == IdProvider example
 
-For an ID provider that wants to ship its own stylesheet or icon set with the login page, pair lib-static with lib-router inside the controller: one route serves static, the others handle login / logout / etc.
+The login page of an ID provider is often plain static HTML — a form, a stylesheet, maybe a logo. The controller can serve it directly with `requestHandler`, the same way as the minimal webapp example. The form's `action="login"` posts the submitted credentials to the ID provider's `login` flow.
 
 ====
 This example demonstrates
 
-* Serving static assets from inside an ID provider
-* Co-existence of static-asset routing and the regular `login` / `logout` handlers
+* Serving the entire login page (HTML + CSS) as static files from inside an ID provider
+* A controller that does nothing but delegate `GET` to `requestHandler`
+* No lib-router, no template rendering
 ====
 
 . *Define the ID provider descriptor:*
@@ -215,17 +216,23 @@ This example demonstrates
 include::../src/main/resources/idprovider/idprovider.yaml[]
 ----
 +
-. *Add the controller.* The `GET` export dispatches via lib-router. A real ID provider would also export `login` / `logout` / `handle401`; those are left out here — this example only shows the static-asset wiring.
+. *Add the controller* — three lines, just delegate `GET` to lib-static with a custom root:
 +
 .src/main/resources/idprovider/idprovider.ts
 [source,typescript]
 ----
 include::../src/main/resources/idprovider/idprovider.ts[]
 ----
-<1> Static requests under `/_static/` are forwarded to lib-static.
-<2> Anything else falls through to render the login page.
 +
-. *Place a stylesheet next to the controller:*
+NOTE: A real ID provider would also export `login` / `logout` / `handle401` — those are out of scope for this example, which only shows the static-asset wiring.
++
+. *Place the login page and its stylesheet under the controller's root:*
++
+.src/main/resources/idprovider/files/index.html
+[source,html]
+----
+include::../src/main/resources/idprovider/files/index.html[]
+----
 +
 .src/main/resources/idprovider/files/login.css
 [source,css]
@@ -233,4 +240,4 @@ include::../src/main/resources/idprovider/idprovider.ts[]
 include::../src/main/resources/idprovider/files/login.css[]
 ----
 +
-. Build, deploy, and configure a site to use the ID provider — the login page loads its own stylesheet via the static route.
+. Build, deploy, and configure a site to use the ID provider — the login page is served straight from `idprovider/files/index.html`.
