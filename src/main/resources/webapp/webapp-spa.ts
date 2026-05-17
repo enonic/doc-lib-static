@@ -21,4 +21,4 @@ router.get('{path:.*}', (request) => requestHandler(request, {
   root: '/webapp/files',
 }));
 
-export const all = (request) => router.dispatch(request);
+export const GET = (request) => router.dispatch(request);

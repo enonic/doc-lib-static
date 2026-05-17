@@ -14,4 +14,4 @@ router.get('{path:.*}', (request) => ({ // <2>
     + `<h1>Static asset demo</h1>`,
 }));
 
-export const all = (request) => router.dispatch(request);
+export const GET = (request) => router.dispatch(request);

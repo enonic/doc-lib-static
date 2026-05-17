@@ -158,7 +158,7 @@ include::../src/main/resources/site/controllers/myController/files/css/styles.cs
 
 == AdminExtension example
 
-Admin extensions can't expose lib-asset's Universal API endpoint (see the lib-asset warning), so static assets have to be served through the extension controller itself. lib-static + lib-router pairs cleanly for that — one route dispatches static requests, another renders the extension UI.
+In an admin extension, the controller handles everything that hits the extension URL — both the widget HTML and any assets it references. lib-static + lib-router pair cleanly for that: one route dispatches static requests, another renders the extension UI.
 
 ====
 This example demonstrates
@@ -198,7 +198,7 @@ include::../src/main/resources/admin/extensions/myExtension/files/styles.css[]
 
 == IdProvider example
 
-ID provider controllers, like admin extensions, can't use lib-asset (per the lib-asset warning). For an ID provider that wants to ship its own stylesheet or icon set with the login page, pair lib-static with lib-router the same way: one route serves static, the others handle login / logout / etc.
+For an ID provider that wants to ship its own stylesheet or icon set with the login page, pair lib-static with lib-router inside the controller: one route serves static, the others handle login / logout / etc.
 
 ====
 This example demonstrates
