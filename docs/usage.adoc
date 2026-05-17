@@ -168,30 +168,30 @@ This example demonstrates
 * Building asset URLs relative to the extension's `contextPath`
 ====
 
-. *Define the extension descriptor.* The extension is mounted by XP at a URL like `/_/admin:extension/com.example.static:myExtension`.
+. *Define the extension descriptor.* The extension is mounted by XP at a URL like `/_/admin:extension/com.example.static:my-extension`.
 +
-.src/main/resources/admin/extensions/myExtension/myExtension.yaml
+.src/main/resources/admin/extensions/my-extension/my-extension.yaml
 [source,yaml]
 ----
-include::../src/main/resources/admin/extensions/myExtension/myExtension.yaml[]
+include::../src/main/resources/admin/extensions/my-extension/my-extension.yaml[]
 ----
 +
 . *Add the controller.* lib-router routes anything under `/_static/` to lib-static; everything else renders the widget HTML.
 +
-.src/main/resources/admin/extensions/myExtension/myExtension.ts
+.src/main/resources/admin/extensions/my-extension/my-extension.ts
 [source,typescript]
 ----
-include::../src/main/resources/admin/extensions/myExtension/myExtension.ts[]
+include::../src/main/resources/admin/extensions/my-extension/my-extension.ts[]
 ----
 <1> Requests with the `/_static/` prefix are forwarded to lib-static; `mappedRelativePath('_static')` strips the prefix before lib-static resolves against `root`.
 <2> The catch-all route renders the widget. Asset URLs are built relative to `request.contextPath` so they keep working under any admin mount.
 +
 . *Place a stylesheet next to the controller:*
 +
-.src/main/resources/admin/extensions/myExtension/files/styles.css
+.src/main/resources/admin/extensions/my-extension/files/styles.css
 [source,css]
 ----
-include::../src/main/resources/admin/extensions/myExtension/files/styles.css[]
+include::../src/main/resources/admin/extensions/my-extension/files/styles.css[]
 ----
 +
 . Build, deploy, and open the extension in the admin UI — the stylesheet loads via `${contextPath}/_static/styles.css`.
