@@ -1,0 +1,5 @@
+kind: "Site"
+mappings:
+  - controller: "/site/controllers/myController/myController.js"
+    order: 1
+    pattern: "/mymapping(/.*)?"
