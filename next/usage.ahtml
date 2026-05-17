@@ -687,7 +687,7 @@ export const all = (request) =&gt; router.dispatch(request);</code></pre>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>relativeMappedPath must match the mapping in <code>site.xml</code> below</td>
+<td>relativeMappedPath must match the mapping in <code>site.yaml</code> below</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -697,17 +697,15 @@ export const all = (request) =&gt; router.dispatch(request);</code></pre>
 </div>
 </li>
 <li>
-<p><strong>Define the mapping</strong> in your <code>site.xml</code> file.</p>
+<p><strong>Define the mapping</strong> in your <code>site.yaml</code> file.</p>
 <div class="listingblock">
-<div class="title">site/site.xml</div>
+<div class="title">site/site.yaml</div>
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;site&gt;
-  &lt;mappings&gt;
-    &lt;mapping controller="/site/controllers/myController/myController.js" order="1"&gt;
-      &lt;pattern&gt;/mymapping(/.*)?&lt;/pattern&gt;
-    &lt;/mapping&gt;
-  &lt;/mappings&gt;
-&lt;/site&gt;</code></pre>
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">kind: "Site"
+mappings:
+  - controller: "/site/controllers/myController/myController.js"
+    order: 1
+    pattern: "/mymapping(/.*)?"</code></pre>
 </div>
 </div>
 </li>
@@ -882,7 +880,7 @@ export const all = (request) =&gt; router.dispatch(request);</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-17 05:46:37 UTC
+Last updated 2026-05-17 07:04:08 UTC
 </div>
 </div>
 </body>
