@@ -1,0 +1,16 @@
+{
+    "menuItems": [
+    {
+      "title": "Intro",
+      "document": "index"
+    },
+    {
+      "title": "Usage",
+      "document": "usage"
+    },
+    {
+      "title": "API",
+      "document": "api"
+    }
+  ]
+}
