@@ -186,12 +186,12 @@ include::../src/main/resources/admin/extensions/my-extension/my-extension.ts[]
 <1> Requests with the `/_static/` prefix are forwarded to lib-static; `mappedRelativePath('_static')` strips the prefix before lib-static resolves against `root`.
 <2> The catch-all route renders the widget. Asset URLs are built relative to `request.contextPath` so they keep working under any admin mount.
 +
-. *Place a stylesheet next to the controller:*
+. *Place a stylesheet under `src/main/resources/static/my-extension/`* — the static-asset folder the controller's `root` option points at:
 +
-.src/main/resources/admin/extensions/my-extension/files/styles.css
+.src/main/resources/static/my-extension/styles.css
 [source,css]
 ----
-include::../src/main/resources/admin/extensions/my-extension/files/styles.css[]
+include::../src/main/resources/static/my-extension/styles.css[]
 ----
 +
 . Build, deploy, and open the extension in the admin UI — the stylesheet loads via `${contextPath}/_static/styles.css`.
@@ -226,18 +226,18 @@ include::../src/main/resources/idprovider/idprovider.ts[]
 +
 NOTE: A real ID provider would also export `login` / `logout` / `handle401` — those are out of scope for this example, which only shows the static-asset wiring.
 +
-. *Place the login page and its stylesheet under the controller's root:*
+. *Place the login page and its stylesheet under `src/main/resources/static/idprovider/`* — the static-asset folder the controller's `root` option points at:
 +
-.src/main/resources/idprovider/files/index.html
+.src/main/resources/static/idprovider/index.html
 [source,html]
 ----
-include::../src/main/resources/idprovider/files/index.html[]
+include::../src/main/resources/static/idprovider/index.html[]
 ----
 +
-.src/main/resources/idprovider/files/login.css
+.src/main/resources/static/idprovider/login.css
 [source,css]
 ----
-include::../src/main/resources/idprovider/files/login.css[]
+include::../src/main/resources/static/idprovider/login.css[]
 ----
 +
 . Build, deploy, and configure a site to use the ID provider — the login page is served straight from `idprovider/files/index.html`.

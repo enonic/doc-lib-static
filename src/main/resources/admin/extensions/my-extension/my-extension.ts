@@ -4,7 +4,7 @@ import Router from '/lib/router';
 const router = Router();
 
 router.get('/_static/{path:.*}', (request) => requestHandler(request, { // <1>
-  root: '/admin/extensions/my-extension/files',
+  root: '/static/my-extension',
   relativePath: mappedRelativePath('_static'),
 }));
 
