@@ -112,7 +112,7 @@ TIP: You may serve the webapp from any context path (and domain) using https://d
 ----
 include::../src/main/resources/webapp/webapp-spa.ts[]
 ----
-<1> `cacheControl` is a function — you can return `RESPONSE_CACHE_CONTROL.SAFE` for files without a content hash (like `vite.svg`), and `defaultCacheControl` (immutable) for everything else.
+<1> `cacheControl` is a function — you can return `+RESPONSE_CACHE_CONTROL.SAFE+` for files without a content hash (like `vite.svg`), and `defaultCacheControl` (immutable) for everything else.
 <2> `spaNotFoundHandler` serves `index.html` on 404 so client-side routing keeps working.
 +
 . Build and deploy the Enonic app containing the SPA, you should see the result by visiting http://localhost:8080/webapp/com.example.static[http://localhost:8080/webapp/com.example.static].
@@ -168,7 +168,7 @@ This example demonstrates
 * Building asset URLs relative to the extension's `contextPath`
 ====
 
-. *Define the extension descriptor.* The extension is mounted by XP at a URL like `/_/admin:extension/com.example.static:my-extension`.
+. *Define the extension descriptor.* The extension is mounted by XP at a URL like `+/_/admin:extension/com.example.static:my-extension+`.
 +
 .src/main/resources/admin/extensions/my-extension/my-extension.yaml
 [source,yaml]
@@ -176,14 +176,14 @@ This example demonstrates
 include::../src/main/resources/admin/extensions/my-extension/my-extension.yaml[]
 ----
 +
-. *Add the controller.* lib-router routes anything under `/_static/` to lib-static; everything else renders the widget HTML.
+. *Add the controller.* lib-router routes anything under `+/_static/+` to lib-static; everything else renders the widget HTML.
 +
 .src/main/resources/admin/extensions/my-extension/my-extension.ts
 [source,typescript]
 ----
 include::../src/main/resources/admin/extensions/my-extension/my-extension.ts[]
 ----
-<1> Requests with the `/_static/` prefix are forwarded to lib-static; `mappedRelativePath('_static')` strips the prefix before lib-static resolves against `root`.
+<1> Requests with the `+/_static/+` prefix are forwarded to lib-static; `+mappedRelativePath('_static')+` strips the prefix before lib-static resolves against `root`.
 <2> The catch-all route renders the widget. Asset URLs are built relative to `request.contextPath` so they keep working under any admin mount.
 +
 . *Place a stylesheet under `src/main/resources/static/my-extension/`* — the static-asset folder the controller's `root` option points at:
@@ -194,7 +194,7 @@ include::../src/main/resources/admin/extensions/my-extension/my-extension.ts[]
 include::../src/main/resources/static/my-extension/styles.css[]
 ----
 +
-. Build, deploy, and open the extension in the admin UI — the stylesheet loads via `${contextPath}/_static/styles.css`.
+. Build, deploy, and open the extension in the admin UI — the stylesheet loads via `+${contextPath}/_static/styles.css+`.
 
 == IdProvider example
 
