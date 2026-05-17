@@ -3,7 +3,7 @@
 
 == Introduction
 
-There are multiple ways of deploying and using lib-static in your application. Below we expore the most common approaches. This includes how you may set up lib-static to service different files, using different cache headers.
+There are multiple ways of deploying and using lib-static in your application. Below we explore the most common approaches. This includes how you may set up lib-static to serve different files, using different cache headers.
 
 == Common
 
@@ -14,62 +14,108 @@ Follow these initial steps to get started, they are common for all the examples 
   enonic sandbox create static_tutorial -t essentials -f
   enonic create com.example.static -r starter-ts
 +
-. Add the lib-static dependency with a single line
+. Add the lib-static dependency:
 +
 .build.gradle
 [source,groovy]
 ----
 dependencies {
   include "com.enonic.lib:lib-static:${libVersion}"
+  include "com.enonic.lib:lib-router:${routerVersion}" // <1>
 }
 ----
+<1> Optional. lib-router is not required to use lib-static, but it is very handy for splitting static resources and dynamic ones inside the same controller, as demonstrated in the examples below. Skip it if your controller only serves static assets.
 +
-NOTE: Replace `${libVersion}` with the desired version of lib-static.
+NOTE: Replace `${libVersion}` / `${routerVersion}` with the desired versions of lib-static and lib-router.
 
 You can now move on to the various examples below:
 
-== Service example
+== Webapp example
 
-This demonstrates how to serve assets using a https://developer.enonic.com/docs/xp/stable/runtime/engines/http-service[http service].
+The simplest way to serve a static site with lib-static: a webapp controller that delegates every GET to `requestHandler` with all defaults — root `/assets`, `index.html` as the directory index, immutable cache headers.
+
+TIP: Read more about https://developer.enonic.com/docs/xp/stable/runtime/engines/webapp-engine[XP webapps].
 
 ====
-This example showcases:
+This example demonstrates
 
-* Serving assets from the default static folder
-* Overriding "immutable" default cache headers
-* Disabling serving of index.html files
+* Serving files from the default `/assets` root
+* `index.html` resolution for directory-like URLs
+* The minimum possible controller wiring
 ====
 
-. Start by *adding a service* to your app.
+. *Place files under `src/main/resources/assets/`:*
 +
-./src/main/resources/services/myStatic/myStatic.ts
-[source,typescript]
+.src/main/resources/assets/index.html
+[source,html]
 ----
-include::../src/main/resources/services/myStatic/myStatic.ts[]
+include::../src/main/resources/assets/index.html[]
 ----
-<1> As the files are not hashed, override the default immutable cache header
-<2> Disable serving of index.html files
 +
-. Place a folder and stylesheet in the app:
-+
-./src/main/resources/static/css/style.css
+.src/main/resources/assets/style.css
 [source,css]
 ----
-include::../src/main/resources/static/css/style.css[]
+include::../src/main/resources/assets/style.css[]
 ----
 +
-NOTE: `/src/main/resources/static/` is the default location where lib static will look for the files
+. *Add the webapp controller:*
 +
-. Add a page controller that links to the stylesheet.
-+
-./src/main/resources/site/pages/dynamic/dynamic.ts
-[source,TypeScript]
+.src/main/resources/webapp/webapp.ts
+[source,typescript]
 ----
-include::../src/main/resources/site/pages/dynamic/dynamic.ts[]
+include::../src/main/resources/webapp/webapp.ts[]
 ----
 +
-. Create a site with a page using this controller, you should instantly see the result.
+That's the whole thing — `requestHandler` is exported directly as the `get` handler. lib-router is *not* required here: the controller has no dynamic responses to split off from the static ones.
++
+. Build, deploy, and visit http://localhost:8080/webapp/com.example.static[http://localhost:8080/webapp/com.example.static].
 
+== Webapp SPA example
+
+For a more involved case — a React (or any other framework) single-page app with build-time fingerprinted assets, custom cache rules, and a `notFound` fallback to `index.html` — lib-static and lib-router pair to handle both static asset serving and the SPA fallback in one controller.
+
+====
+This example demonstrates advanced use-cases like:
+
+* Custom Cache control handling per file
+* Fallback to SPA `index.html` on 404 (so client-side routing works)
+* Custom static folder location (`/webapp/files`)
+* Pairing with lib-router to keep the dispatch readable
+====
+
+. Create a new React app using Vite
++
+  npm create vite@latest my-app-name -- --template react-ts
+  cd my-app-name
++
+. Replace the default App.tsx file with this:
++
+./src/vite/App.tsx
+[source,typescript]
+----
+include::../src/vite/App.tsx[]
+----
++
+TIP: You may serve the webapp from any context path (and domain) using https://developer.enonic.com/docs/xp/stable/deployment/vhosts[vHosts]. Make sure the baseUrl in your React app is compliant with the deployment.
++
+. From the React app folder, build the static webapp:
++
+  npm install
+  npm run build
++
+. *Copy the static webapp files* from the React app `dist/` folder into your Enonic app. In this case `src/main/resources/webapp/files/`
++
+. In the Enonic app, *create the webapp controller* that will serve the SPA:
++
+.src/main/resources/webapp/webapp.ts
+[source,typescript]
+----
+include::../src/main/resources/webapp/webapp-spa.ts[]
+----
+<1> `cacheControl` is a function — you can return `+RESPONSE_CACHE_CONTROL.SAFE+` for files without a content hash (like `vite.svg`), and `defaultCacheControl` (immutable) for everything else.
+<2> `spaNotFoundHandler` serves `index.html` on 404 so client-side routing keeps working.
++
+. Build and deploy the Enonic app containing the SPA, you should see the result by visiting http://localhost:8080/webapp/com.example.static[http://localhost:8080/webapp/com.example.static].
 
 == Site mapping example
 
@@ -110,56 +156,88 @@ include::../src/main/resources/site/controllers/myController/files/css/styles.cs
 +
 . Build, deploy and add the application to a site. The files will be served from site-relative mapping path (in this case `/mymapping/css/styles.css`).
 
-== Webapp example
+== AdminExtension example
 
-Lib static is also capable of acting like a webserver, serving html-files. In this example we use XP's /webapp feature to do the job. To make the example as realistic as possible, we use a React SPA created with Vite.
-
-TIP: Read more about <<https://developer.enonic.com/docs/xp/stable/runtime/engines/webapp-engine, XP webapps>>
+In an admin extension, the controller handles everything that hits the extension URL — both the widget HTML and any assets it references. lib-static + lib-router pair cleanly for that: one route dispatches static requests, another renders the extension UI.
 
 ====
-This example demonstrates advanced use-cases like:
+This example demonstrates
 
-* Custom Cache control handling
-* Fallback handling to SPA file for 404
-* Custom static folder location
+* Serving static assets from inside an admin extension
+* lib-router dispatch with a static-prefix route
+* Building asset URLs relative to the extension's `contextPath`
 ====
 
-. Create a new React app using Vite
+. *Define the extension descriptor.* The extension is mounted by XP at a URL like `+/_/admin:extension/com.example.static:my-extension+`.
 +
-  npm create vite@latest my-app-name -- --template react-ts
-  cd my-app-name
+.src/main/resources/admin/extensions/my-extension/my-extension.yaml
+[source,yaml]
+----
+include::../src/main/resources/admin/extensions/my-extension/my-extension.yaml[]
+----
 +
-. Replace the default App.tsx file with this:
+. *Add the controller.* lib-router routes anything under `+/_static/+` to lib-static; everything else renders the widget HTML.
 +
-./src/vite/App.tsx
+.src/main/resources/admin/extensions/my-extension/my-extension.ts
 [source,typescript]
 ----
-include::../src/vite/App.tsx[]
+include::../src/main/resources/admin/extensions/my-extension/my-extension.ts[]
+----
+<1> Requests with the `+/_static/+` prefix are forwarded to lib-static; `+mappedRelativePath('_static')+` strips the prefix before lib-static resolves against `root`.
+<2> The catch-all route renders the widget. Asset URLs are built relative to `request.contextPath` so they keep working under any admin mount.
++
+. *Place a stylesheet under `src/main/resources/static/my-extension/`* — the static-asset folder the controller's `root` option points at:
++
+.src/main/resources/static/my-extension/styles.css
+[source,css]
+----
+include::../src/main/resources/static/my-extension/styles.css[]
 ----
 +
-TIP: You may serve the webapp from any context path (and domain) using https://developer.enonic.com/docs/xp/stable/deployment/vhosts[vHosts]. Make sure the baseUrl in your React app is compliant with the deployment.
+. Build, deploy, and open the extension in the admin UI — the stylesheet loads via `+${contextPath}/_static/styles.css+`.
+
+== IdProvider example
+
+The login page of an ID provider is often plain static HTML — a form, a stylesheet, maybe a logo. The controller can serve it directly with `requestHandler`, the same way as the minimal webapp example. The form's `action="login"` posts the submitted credentials to the ID provider's `login` flow.
+
+====
+This example demonstrates
+
+* Serving the entire login page (HTML + CSS) as static files from inside an ID provider
+* A controller that does nothing but delegate `GET` to `requestHandler`
+* No lib-router, no template rendering
+====
+
+. *Define the ID provider descriptor:*
 +
-. From the React app folder, build the static webapp:
+.src/main/resources/idprovider/idprovider.yaml
+[source,yaml]
+----
+include::../src/main/resources/idprovider/idprovider.yaml[]
+----
 +
-  npm install
-  npm run build
+. *Add the controller* — three lines, just delegate `GET` to lib-static with a custom root:
 +
-. *Copy the static webapp files* from the React app `dist/` folder into your Enonic app. In this case `src/main/resources/webapp/files/`
-+
-. In the Enonic app, *create a webapp controller* that will serve the SPA
-+
-.src/main/resources/webapp/webapp.ts
+.src/main/resources/idprovider/idprovider.ts
 [source,typescript]
 ----
-include::../src/main/resources/webapp/webapp.ts[]
+include::../src/main/resources/idprovider/idprovider.ts[]
 ----
 +
-. Build and deploy the Enonic app containing the SPA, you should see the result by visiting http://localhost:8080/webapp/com.example.static[http://localhost:8080/webapp/com.example.static^]
-
-
-
-
-
-
-
-
+NOTE: A real ID provider would also export `login` / `logout` / `handle401` — those are out of scope for this example, which only shows the static-asset wiring.
++
+. *Place the login page and its stylesheet under `src/main/resources/static/idprovider/`* — the static-asset folder the controller's `root` option points at:
++
+.src/main/resources/static/idprovider/index.html
+[source,html]
+----
+include::../src/main/resources/static/idprovider/index.html[]
+----
++
+.src/main/resources/static/idprovider/login.css
+[source,css]
+----
+include::../src/main/resources/static/idprovider/login.css[]
+----
++
+. Build, deploy, and configure a site to use the ID provider — the login page is served straight from `idprovider/files/index.html`.

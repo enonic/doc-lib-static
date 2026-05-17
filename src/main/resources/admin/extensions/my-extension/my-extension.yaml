@@ -1,0 +1,5 @@
+kind: "AdminExtension"
+title:
+  text: "Static asset demo"
+allow:
+  - "role:system.admin"
