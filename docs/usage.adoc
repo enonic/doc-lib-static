@@ -14,17 +14,19 @@ Follow these initial steps to get started, they are common for all the examples 
   enonic sandbox create static_tutorial -t essentials -f
   enonic create com.example.static -r starter-ts
 +
-. Add the lib-static dependency with a single line
+. Add the lib-static dependency:
 +
 .build.gradle
 [source,groovy]
 ----
 dependencies {
   include "com.enonic.lib:lib-static:${libVersion}"
+  include "com.enonic.lib:lib-router:${routerVersion}" // <1>
 }
 ----
+<1> Optional. lib-router is not required to use lib-static, but it is very handy for splitting static resources and dynamic ones inside the same controller, as demonstrated in the examples below. Skip it if your controller only serves static assets.
 +
-NOTE: Replace `${libVersion}` with the desired version of lib-static.
+NOTE: Replace `${libVersion}` / `${routerVersion}` with the desired versions of lib-static and lib-router.
 
 You can now move on to the various examples below:
 
