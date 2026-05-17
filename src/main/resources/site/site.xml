@@ -1,7 +1,0 @@
-<site>
-  <mappings>
-    <mapping controller="/site/controllers/myController/myController.js" order="1">
-      <pattern>/mymapping(/.*)?</pattern>
-    </mapping>
-  </mappings>
-</site>

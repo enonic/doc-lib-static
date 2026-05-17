@@ -89,15 +89,15 @@ This example demonstrates
 ----
 include::../src/main/resources/site/controllers/myController/myController.ts[]
 ----
-<1> relativeMappedPath must match the mapping in `site.xml` below
+<1> relativeMappedPath must match the mapping in `site.yaml` below
 <2> Defines a custom location where the controller will look for static files
 +
-. *Define the mapping* in your `site.xml` file.
+. *Define the mapping* in your `site.yaml` file.
 +
-.site/site.xml
-[source,xml]
+.site/site.yaml
+[source,yaml]
 ----
-include::../src/main/resources/site/site.xml[]
+include::../src/main/resources/site/site.yaml[]
 ----
 +
 . *Add a file* to the static files folder. In this case we place the files together with the controller:
